@@ -8,22 +8,14 @@
        01  DEPOSIT-AMOUNT         PIC 9(3)V99  VALUE  250.00.
        01  WITHDRAWAL-AMOUNT      PIC 9(3)V99  VALUE  100.00.
 
-       01  BALANCE-DISPLAY        PIC 9(4).99.
-       01  DEPOSIT-DISPLAY        PIC 9(3).99.
-       01  WITHDRAW-DISPLAY       PIC 9(3).99.
-       01  FINAL-DISPLAY          PIC 9(4).99.
 
        PROCEDURE DIVISION.
        MAIN-LOGIC.
 
-           MOVE ACCOUNT-BALANCE   TO BALANCE-DISPLAY
-           MOVE DEPOSIT-AMOUNT    TO DEPOSIT-DISPLAY
-           MOVE WITHDRAWAL-AMOUNT TO WITHDRAW-DISPLAY
 
-
-           DISPLAY "Initial Balance : " BALANCE-DISPLAY
-           DISPLAY "Deposited       : " DEPOSIT-DISPLAY
-           DISPLAY "Withdrawn       : " WITHDRAW-DISPLAY
+           DISPLAY "Initial Balance : " ACCOUNT-BALANCE
+           DISPLAY "Deposited       : " DEPOSIT-AMOUNT
+           DISPLAY "Withdrawn       : " WITHDRAWAL-AMOUNT
 
 
            ADD DEPOSIT-AMOUNT TO ACCOUNT-BALANCE
