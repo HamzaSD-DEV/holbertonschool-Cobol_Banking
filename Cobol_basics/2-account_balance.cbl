@@ -4,24 +4,27 @@
        DATA DIVISION.
        WORKING-STORAGE SECTION.
 
-       01  ACCOUNT-BALANCE        PIC 9(4)V99  VALUE 1000.00.
-       01  DEPOSIT-AMOUNT         PIC 9(3)V99  VALUE  250.00.
-       01  WITHDRAWAL-AMOUNT      PIC 9(3)V99  VALUE  100.00.
+       01  ACCOUNT-BALANCE          PIC 9(4)V99.
+       01  DEPOSIT-AMOUNT         PIC 9(3)V99.
+       01  WITHDRAWAL-AMOUNT   PIC 9(3)V99.
 
 
        PROCEDURE DIVISION.
        MAIN-LOGIC.
 
+           MOVE 1000 to ACCOUNT-BALANCE
+           MOVE 250 to DEPOSIT-AMOUNT 
+           MOVE 100 to WITHDRAWAL-AMOUNT
 
-           DISPLAY "Initial Balance : " ACCOUNT-BALANCE
-           DISPLAY "Deposited       : " DEPOSIT-AMOUNT
-           DISPLAY "Withdrawn       : " WITHDRAWAL-AMOUNT
+           DISPLAY "Initial Balance : "  ACCOUNT-BALANCE
+           DISPLAY "Deposited       : "   DEPOSIT-AMOUNT
+           DISPLAY "Withdrawn       : "    WITHDRAWAL-AMOUNT
 
 
-           ADD DEPOSIT-AMOUNT TO ACCOUNT-BALANCE
-           SUBTRACT WITHDRAWAL-AMOUNT FROM ACCOUNT-BALANCE
+           ADD DEPOSIT-AMOUNT   TO  ACCOUNT-BALANCE
+           SUBTRACT WITHDRAWAL-AMOUNT FROM  ACCOUNT-BALANCE
 
 
-           DISPLAY "Final Balance   : " ACCOUNT-BALANCE
+           DISPLAY "Final Balance   : "   ACCOUNT-BALANCE
 
            STOP RUN.
