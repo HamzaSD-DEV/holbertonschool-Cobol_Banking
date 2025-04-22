@@ -8,7 +8,7 @@
        01 ACCOUNT-BALANCE    PIC 9(5)V99  VALUE 1234.56.
        01 INTEREST-RATE      PIC 9V99     VALUE 5.75.
        
-       01 ACCOUNT-BALANCE-DISPLAY  PIC Z(5).99.
+       01 ACCOUNT-BALANCE-DISPLAY  PIC 9(5).99.
        01 INTEREST-RATE-DISPLAY    PIC 9.99.
 
        PROCEDURE DIVISION.
@@ -18,5 +18,5 @@
 
            DISPLAY "Customer ID : " CUSTOMER-ID
            DISPLAY "Account Balance : " ACCOUNT-BALANCE-DISPLAY
-           DISPLAY "Interest Rate  : " INTEREST-RATE-DISPLAY "%"
+           DISPLAY "Interest Rate : " INTEREST-RATE-DISPLAY "%"
            STOP RUN.
