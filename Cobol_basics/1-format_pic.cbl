@@ -4,9 +4,9 @@
        DATA DIVISION.
        WORKING-STORAGE SECTION.
 
-       01 CUSTOMER-ID        PIC X(9)     VALUE "CUST00123".
-       01 ACCOUNT-BALANCE    PIC 9(5)V99  VALUE 1234.56.
-       01 INTEREST-RATE      PIC 9V99     VALUE 5.75.
+       01 Customer-ID        PIC X(9)     VALUE "CUST00123".
+       01 Account-Balance    PIC 9(5)V99  VALUE 1234.56.
+       01 Interest-Rate      PIC 9V99     VALUE 5.75.
        
        01 ACCOUNT-BALANCE-DISPLAY  PIC 9(5).99.
        01 INTEREST-RATE-DISPLAY    PIC 9.99.
@@ -16,7 +16,7 @@
            MOVE ACCOUNT-BALANCE TO ACCOUNT-BALANCE-DISPLAY
            MOVE INTEREST-RATE TO INTEREST-RATE-DISPLAY
 
-           DISPLAY "Customer ID : " CUSTOMER-ID
+           DISPLAY "Customer ID : " Customer-ID
            DISPLAY "Account Balance : " ACCOUNT-BALANCE-DISPLAY
            DISPLAY "Interest Rate : " INTEREST-RATE-DISPLAY "%"
            STOP RUN.
