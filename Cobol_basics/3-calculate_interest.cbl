@@ -6,7 +6,7 @@
        01  PRINCIPAL             PIC 9(5)V99 VALUE 1000.00.
        01  RATE                  PIC 99V99   VALUE 05.00.
        01  TIMECOUNT             PIC 9       VALUE 3.
-       01  TEST-VAR               PIC 9(5)V99 VALUE 150.00. 
+       01  TEST-VAR               PIC 9(5)V99 VALUE 00150.00. 
        01  TEMP1                PIC 9(5)V99.
        01  TEMP2                PIC 9(5)V99.
        01  SIMPLE-INTEREST      PIC 9(5)V99 VALUE 0.
