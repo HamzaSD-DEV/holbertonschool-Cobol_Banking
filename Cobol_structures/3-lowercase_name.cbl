@@ -1,0 +1,15 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. LOWER-NAME.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 USER-NAME PIC X(20).
+       01 LOWER-NAME PIC X(20).
+
+       PROCEDURE DIVISION.
+           DISPLAY "Enter your name in UPPERCASE: "
+           ACCEPT USER-NAME
+           MOVE FUNCTION LOWER-CASE(USER-NAME) TO LOWER-NAME
+           DISPLAY "Original Name: " USER-NAME
+           DISPLAY "Lowercase Name: " LOWER-NAME
+           STOP RUN.
