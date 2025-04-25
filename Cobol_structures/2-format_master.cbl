@@ -48,9 +48,9 @@
            ACCEPT CUST-ID (I)
            DISPLAY "Customer Name: "
            ACCEPT CUST-NAME (I)
-           DISPLAY "Customer Balance (e.g., 1250.75): "
+           DISPLAY "Customer Balance : "
            ACCEPT CUST-BAL (I)
-           DISPLAY "Interest Rate (e.g., 3.25): "
+           DISPLAY "Interest Rate : "
            ACCEPT CUST-RATE (I)
            DISPLAY "Status: "
            ACCEPT CUST-STATUS (I)
