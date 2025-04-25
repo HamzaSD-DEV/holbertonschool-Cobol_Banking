@@ -1,1 +1,1 @@
-COBOL TESTING REPO!
+compare("printf \"CUST0004\nAlice Smith\n1257.5\n33.2\nActive\nCUST0002\nBobs Johnson\n95.00\n2.50\nActive\nCUST0003\nCharlie Davis\n0.00\n0.00\nInactive\n\" | ./format-master", "3469/34367/output_0")
