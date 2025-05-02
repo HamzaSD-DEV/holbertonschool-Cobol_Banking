@@ -28,10 +28,11 @@
                DISPLAY "Enter Customer ID (5 digits): "
                ACCEPT CUST-ID
 
-               DISPLAY "Enter First Name (max 10 chars): "
+               DISPLAY "Enter First Name (max 10 characters): "
+               
                ACCEPT CUST-FNAME
 
-               DISPLAY "Enter Last Name (max 10 chars): "
+               DISPLAY "Enter Last Name (max 10 characters): "
                ACCEPT CUST-LNAME
 
                DISPLAY "Enter Balance (less than 99999.99): "
