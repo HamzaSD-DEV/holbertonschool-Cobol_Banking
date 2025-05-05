@@ -48,6 +48,7 @@
            WRITE CUSTOMER-RECORD
 
                DISPLAY "Record written. Add another? (Y/N): "
+               
                ACCEPT CONTINUE-FLAG
                MOVE FUNCTION UPPER-CASE(CONTINUE-FLAG) TO CONTINUE-FLAG
            END-PERFORM
