@@ -67,10 +67,10 @@
            MOVE "Adams    " TO CUST-TABLE-LNAME (7)
            MOVE 1000.1 TO CUST-TABLE-BAL (7)
 
-           MOVE 10101 TO CUST-TABLE-ID (7)
-           MOVE "Hamza    " TO CUST-TABLE-FNAME (7)
-           MOVE "Saoud    " TO CUST-TABLE-LNAME (7)
-           MOVE 111.1 TO CUST-TABLE-BAL (7)
+      *    MOVE 10101 TO CUST-TABLE-ID (7)
+      *    MOVE "Hamza    " TO CUST-TABLE-FNAME (7)
+      *    MOVE "Saoud    " TO CUST-TABLE-LNAME (7)
+      *    MOVE 111.1 TO CUST-TABLE-BAL (7)
 
            OPEN OUTPUT CUSTOMER-FILE
 
