@@ -15,8 +15,8 @@
        FD CUSTOMER-FILE.
        01 CUSTOMER-RECORD.
            05 CUST-ID        PIC 9(5).
-           05 CUST-FNAME     PIC X(10).
-           05 CUST-LNAME     PIC X(10).
+           05 CUST-FNAME     PIC A(10).
+           05 CUST-LNAME     PIC A(10).
            05 CUST-BALANCE   PIC 9(5)V99.
 
        WORKING-STORAGE SECTION.
@@ -26,8 +26,8 @@
        01 CUSTOMER-TABLE.
            05 CUSTOMER-ENTRY OCCURS 7 TIMES INDEXED BY T-INDEX.
                10 CUST-TABLE-ID    PIC 9(5).
-               10 CUST-TABLE-FNAME PIC X(10).
-               10 CUST-TABLE-LNAME PIC X(10).
+               10 CUST-TABLE-FNAME PIC A(10).
+               10 CUST-TABLE-LNAME PIC A(10).
                10 CUST-TABLE-BAL   PIC 9(5)V99.
 
        PROCEDURE DIVISION.
