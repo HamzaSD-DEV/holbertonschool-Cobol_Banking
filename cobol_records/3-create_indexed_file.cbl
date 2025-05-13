@@ -17,7 +17,7 @@
            05 CUST-ID        PIC 9(5).
            05 CUST-FNAME     PIC A(10).
            05 CUST-LNAME     PIC A(10).
-           05 CUST-BALANCE   PIC 9(5)V99.
+           05 CUST-BALANCE   PIC 9(6)V99.
 
        WORKING-STORAGE SECTION.
        01 WS-FILE-STATUS     PIC XX.
@@ -28,7 +28,7 @@
                10 CUST-TABLE-ID    PIC 9(5).
                10 CUST-TABLE-FNAME PIC A(10).
                10 CUST-TABLE-LNAME PIC A(10).
-               10 CUST-TABLE-BAL   PIC 9(5)V99.
+               10 CUST-TABLE-BAL   PIC 9(6)V99.
 
        PROCEDURE DIVISION.
        BEGIN.
@@ -40,7 +40,7 @@
            MOVE 00002 TO CUST-TABLE-ID (2)
            MOVE "Alice    " TO CUST-TABLE-FNAME (2)
            MOVE "Brown    " TO CUST-TABLE-LNAME (2)
-           MOVE 5432 TO CUST-TABLE-BAL (2)
+           MOVE 205432 TO CUST-TABLE-BAL (2)
 
            MOVE 00003 TO CUST-TABLE-ID (3)
            MOVE "Bob      " TO CUST-TABLE-FNAME (3)
@@ -55,7 +55,7 @@
            MOVE 00005 TO CUST-TABLE-ID (5)
            MOVE "Maria    " TO CUST-TABLE-FNAME (5)
            MOVE "Lopez    " TO CUST-TABLE-LNAME (5)
-           MOVE 320.00 TO CUST-TABLE-BAL (5)
+           MOVE 99320.00 TO CUST-TABLE-BAL (5)
 
            MOVE 00006 TO CUST-TABLE-ID (6)
            MOVE "James    " TO CUST-TABLE-FNAME (6)
@@ -65,7 +65,7 @@
            MOVE 00007 TO CUST-TABLE-ID (7)
            MOVE "Lily     " TO CUST-TABLE-FNAME (7)
            MOVE "Adams    " TO CUST-TABLE-LNAME (7)
-           MOVE 1000.1 TO CUST-TABLE-BAL (7)
+           MOVE 10001.1 TO CUST-TABLE-BAL (7)
 
       *    MOVE 10101 TO CUST-TABLE-ID (7)
       *    MOVE "Hamza    " TO CUST-TABLE-FNAME (7)
