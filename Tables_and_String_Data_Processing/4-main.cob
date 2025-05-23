@@ -1,0 +1,26 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. MAINPHONE.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+
+       01 PHONE-INDEX        PIC 9(2) VALUE 1.
+
+       01 TEST-PHONE-LIST.
+           05 PHONE-ENTRY OCCURS 5 TIMES INDEXED BY IDX.
+               10 PHONE-NUMBER     PIC X(30).
+
+       PROCEDURE DIVISION.
+
+           MOVE "(02) (12-34) (56)78"     TO PHONE-NUMBER (1).
+           MOVE "04-12-3-45-6-78"       TO PHONE-NUMBER (2).
+           MOVE "12-3-45-678"         TO PHONE-NUMBER (3).
+           MOVE "(02) 1234 5678-9"      TO PHONE-NUMBER (4).
+           MOVE "0A-12B-345-67"         TO PHONE-NUMBER (5).
+
+           PERFORM VARYING PHONE-INDEX FROM 1 BY 1 UNTIL PHONE-INDEX > 5
+               DISPLAY "Testing Phone: " PHONE-NUMBER (PHONE-INDEX)
+               CALL 'VALIDATEPHONE' USING PHONE-NUMBER (PHONE-INDEX)
+           END-PERFORM.
+
+           STOP RUN.
