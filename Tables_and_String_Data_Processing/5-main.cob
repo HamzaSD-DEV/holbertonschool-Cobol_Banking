@@ -1,0 +1,25 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. MAIN.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+
+       01 TEST-DATES.
+           05 TEST-DATE-ENTRY OCCURS 5 TIMES INDEXED BY IDX.
+               10 DATE-STRING  PIC X(20).
+
+       01 I PIC 9(2) VALUE 1.
+
+       PROCEDURE DIVISION.
+           MOVE "202A0607"      TO DATE-STRING(1).
+           MOVE "2021301"      TO DATE-STRING(2).
+           MOVE "2024-06-074"    TO DATE-STRING(3).
+           MOVE "20251231"        TO DATE-STRING(4).
+           MOVE "2034-10-01"      TO DATE-STRING(5).
+
+           PERFORM VARYING I FROM 1 BY 1 UNTIL I > 5
+               DISPLAY "Testing Date: " DATE-STRING(I)
+               CALL 'FORMATDATE' USING DATE-STRING(I)
+           END-PERFORM
+
+           STOP RUN.
