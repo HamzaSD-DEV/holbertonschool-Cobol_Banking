@@ -1,0 +1,83 @@
+exec_bash_contains("printf \"ADMIN010\nA\nRD\n1\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nRD\n2\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nRD\n3\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nRD\n4\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nRD\n5\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nWR\n1\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nWR\n2\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nWR\n3\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nWR\n4\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nWR\n5\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nDL\n1\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nDL\n2\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nDL\n3\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nDL\n4\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nDL\n5\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nAU\n1\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nAU\n2\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nAU\n3\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nAU\n4\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"ADMIN010\nA\nAU\n5\n\" | ./rbac-security" , ["GRANTED"]) 
+
+exec_bash_contains("printf \"MANAGER01\nM\nRD\n1\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nRD\n2\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nRD\n3\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nRD\n4\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nRD\n5\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nWR\n1\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nWR\n2\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nWR\n3\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nWR\n4\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nWR\n5\n\" | ./rbac-security" , ["DENIED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nDL\n1\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nDL\n2\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nDL\n3\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nDL\n4\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nDL\n5\n\" | ./rbac-security" , ["DENIED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nAU\n1\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nAU\n2\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nAU\n3\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nAU\n4\n\" | ./rbac-security" , ["GRANTED"]) and
+exec_bash_contains("printf \"MANAGER01\nM\nAU\n5\n\" | ./rbac-security" , ["GRANTED"]) 
+
+exec_bash_contains("printf \"USER010\nU\nRD\n1\n\" | ./rbac-security"  , ["GRANTED"]) and
+exec_bash_contains("printf \"USER010\nU\nRD\n2\n\" | ./rbac-security"  , ["GRANTED"]) and
+exec_bash_contains("printf \"USER010\nU\nRD\n3\n\" | ./rbac-security"  , ["GRANTED"]) and
+exec_bash_contains("printf \"USER010\nU\nRD\n4\n\" | ./rbac-security"  , ["GRANTED"]) and
+exec_bash_contains("printf \"USER010\nU\nRD\n5\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"USER010\nU\nWR\n1\n\" | ./rbac-security"  , ["GRANTED"]) and
+exec_bash_contains("printf \"USER010\nU\nWR\n2\n\" | ./rbac-security"  , ["GRANTED"]) and
+exec_bash_contains("printf \"USER010\nU\nWR\n3\n\" | ./rbac-security"  , ["GRANTED"]) and
+exec_bash_contains("printf \"USER010\nU\nWR\n4\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"USER010\nU\nWR\n5\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"USER010\nU\nDL\n1\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"USER010\nU\nDL\n2\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"USER010\nU\nDL\n3\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"USER010\nU\nDL\n4\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"USER010\nU\nDL\n5\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"USER010\nU\nAU\n1\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"USER010\nU\nAU\n2\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"USER010\nU\nAU\n3\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"USER010\nU\nAU\n4\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"USER010\nU\nAU\n5\n\" | ./rbac-security"  , ["DENIED"]) 
+
+exec_bash_contains("printf \"GUEST01\nG\nRD\n1\n\" | ./rbac-security"  , ["GRANTED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nRD\n2\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nRD\n3\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nRD\n4\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nRD\n5\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nWR\n1\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nWR\n2\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nWR\n3\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nWR\n4\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nWR\n5\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nDL\n1\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nDL\n2\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nDL\n3\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nDL\n4\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nDL\n5\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nAU\n1\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nAU\n2\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nAU\n3\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nAU\n4\n\" | ./rbac-security"  , ["DENIED"]) and
+exec_bash_contains("printf \"GUEST01\nG\nAU\n5\n\" | ./rbac-security"  , ["DENIED"]) 

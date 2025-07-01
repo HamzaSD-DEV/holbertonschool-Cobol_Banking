@@ -1,0 +1,80 @@
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for READ on Level 1 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for READ on Level 2 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for READ on Level 3 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for READ on Level 4 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for READ on Level 5 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for WRITE on Level 1 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for WRITE on Level 2 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for WRITE on Level 3 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for WRITE on Level 4 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for WRITE on Level 5 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for DELETE on Level 1 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for DELETE on Level 2 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for DELETE on Level 3 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for DELETE on Level 4 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for DELETE on Level 5 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for AUDIT on Level 1 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for AUDIT on Level 2 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for AUDIT on Level 3 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for AUDIT on Level 4 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User ADMIN010 (Admin) authorized for AUDIT on Level 5 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for READ on Level 1 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for READ on Level 2 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for READ on Level 3 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for READ on Level 4 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for READ on Level 5 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for WRITE on Level 1 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for WRITE on Level 2 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for WRITE on Level 3 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for WRITE on Level 4 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Manager' not authorized for WRITE operations on Level 5 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for DELETE on Level 1 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for DELETE on Level 2 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for DELETE on Level 3 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for DELETE on Level 4 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Manager' not authorized for DELETE operations on Level 5 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for AUDIT on Level 1 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for AUDIT on Level 2 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for AUDIT on Level 3 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for AUDIT on Level 4 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User MANAGER0 (Manager) authorized for AUDIT on Level 5 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User USER010 (User) authorized for READ on Level 1 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User USER010 (User) authorized for READ on Level 2 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User USER010 (User) authorized for READ on Level 3 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User USER010 (User) authorized for READ on Level 4 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges ,User role 'User' not authorized for READ operations on Level 5 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User USER010 (User) authorized for WRITE on Level 1 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User USER010 (User) authorized for WRITE on Level 2 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User USER010 (User) authorized for WRITE on Level 3 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'User' not authorized for WRITE operations on Level 4 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'User' not authorized for WRITE operations on Level 5 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'User' not authorized for DELETE operations on Level 1 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'User' not authorized for DELETE operations on Level 2 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'User' not authorized for DELETE operations on Level 3 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'User' not authorized for DELETE operations on Level 4 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'User' not authorized for DELETE operations on Level 5 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'User' not authorized for AUDIT operations on Level 1 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'User' not authorized for AUDIT operations on Level 2 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'User' not authorized for AUDIT operations on Level 3 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'User' not authorized for AUDIT operations on Level 4 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'User' not authorized for AUDIT operations on Level 5 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS GRANTED: User GUEST01 (Guest) authorized for READ on Level 1 resource
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for READ operations on Level 2 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for READ operations on Level 3 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for READ operations on Level 4 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for READ operations on Level 5 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for WRITE operations on Level 1 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for WRITE operations on Level 2 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for WRITE operations on Level 3 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for WRITE operations on Level 4 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for WRITE operations on Level 5 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for DELETE operations on Level 1 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for DELETE operations on Level 2 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for DELETE operations on Level 3 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for DELETE operations on Level 4 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for DELETE operations on Level 5 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for AUDIT operations on Level 1 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for AUDIT operations on Level 2 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for AUDIT operations on Level 3 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for AUDIT operations on Level 4 resources
+Enter User ID: Enter Role Code (A/M/U/G): Enter Operation (RD/WR/DL/AU): Enter Resource Level (1-5): ACCESS DENIED: Insufficient privileges User role 'Guest' not authorized for AUDIT operations on Level 5 resources
