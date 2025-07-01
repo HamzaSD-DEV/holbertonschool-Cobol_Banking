@@ -234,7 +234,7 @@
            END-IF.
 
        DISPLAY-ERROR.
-           DISPLAY WS-ERROR-MESSAGE
+           DISPLAY "ACCESS DENIED: " WS-ERROR-MESSAGE
            IF WS-CHAR-COUNT > 0
                DISPLAY "Invalid characters detected: " FUNCTION 
                                 TRIM(WS-INVALID-CHARS)
