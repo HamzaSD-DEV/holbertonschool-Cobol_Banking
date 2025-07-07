@@ -22,7 +22,7 @@
            05 EMP-SALARY-TX  PIC X(8).
 
        FD LOG-FILE.
-       01 LOG-RECORD        PIC X(100).
+       01 LOG-RECORD        PIC X(200).
 
        WORKING-STORAGE SECTION.
        01 EMP-STATUS        PIC XX.
