@@ -5,10 +5,12 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT EMPLOYEE-FILE ASSIGN TO "EMPLOYEES.DAT"
-               ORGANIZATION IS LINE SEQUENTIAL
+               ORGANIZATION IS SEQUENTIAL
+               ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS EMP-STATUS.
            SELECT LOG-FILE ASSIGN TO "ERRORS.LOG"
                ORGANIZATION IS LINE SEQUENTIAL
+               ACCESS MODE IS SEQUENTIAL
                FILE STATUS IS LOG-STATUS.
 
        DATA DIVISION.
@@ -20,7 +22,7 @@
            05 EMP-SALARY-TX  PIC X(8).
 
        FD LOG-FILE.
-       01 LOG-RECORD        PIC X(200).
+       01 LOG-RECORD        PIC X(100).
 
        WORKING-STORAGE SECTION.
        01 EMP-STATUS        PIC XX.
@@ -43,18 +45,19 @@
            ACCEPT WS-EMP-ID
            DISPLAY "[DEBUG] Searching for Employee ID: " WS-EMP-ID
 
+           *> Open EMPLOYEES.DAT for read/write
            OPEN I-O EMPLOYEE-FILE
 
-           *> Open log file for append, creating it if necessary
+           *> Open LOG-FILE for append (create if missing)
            OPEN EXTEND LOG-FILE
-           IF LOG-STATUS = "35"       *> file not found
+           IF LOG-STATUS = "35"
                CLOSE LOG-FILE
-               OPEN OUTPUT LOG-FILE   *> create new empty log
+               OPEN OUTPUT LOG-FILE
                CLOSE LOG-FILE
-               OPEN EXTEND LOG-FILE   *> reopen for append
+               OPEN EXTEND LOG-FILE
            END-IF
 
-           *> Search loop
+           *> Search for the record
            PERFORM UNTIL WS-END-FLAG = 'Y' OR WS-FOUND-FLAG = 'Y'
                READ EMPLOYEE-FILE
                    AT END
@@ -79,7 +82,7 @@
                    ON SIZE ERROR
                        PERFORM LOG-OVERFLOW
                        DISPLAY "Error: Bonus too large. Salary update fa
-      -                 "iled due to overflow."
+      -                "iled due to overflow."
                    NOT ON SIZE ERROR
                        MOVE WS-SALARY-NUM TO WS-NEW-SALARY-DSP
                        DISPLAY "Updated Salary for " FUNCTION 
@@ -102,12 +105,13 @@
        LOG-OVERFLOW.
            PERFORM GET-TIMESTAMP
            MOVE SPACES TO LOG-RECORD
-           STRING WS-TIMESTAMP DELIMITED BY SIZE
-                  " - ERROR: Bonus too large for Employee ID "
-                  WS-EMP-ID
-                  ". Salary update failed due to overflow."
-                  DELIMITED BY SIZE
-                  INTO LOG-RECORD
+           STRING
+               WS-TIMESTAMP DELIMITED BY SIZE
+               " - ERROR: Bonus too large for Employee ID "
+               WS-EMP-ID
+               ". Salary update failed due to overflow."
+               DELIMITED BY SIZE
+               INTO LOG-RECORD
            END-STRING
            WRITE LOG-RECORD AFTER ADVANCING 1 LINES
            .
@@ -115,12 +119,13 @@
        LOG-NOT-FOUND.
            PERFORM GET-TIMESTAMP
            MOVE SPACES TO LOG-RECORD
-           STRING WS-TIMESTAMP DELIMITED BY SIZE
-                  " - ERROR: Employee ID "
-                  WS-EMP-ID
-                  " not found in EMPLOYEES.DAT."
-                  DELIMITED BY SIZE
-                  INTO LOG-RECORD
+           STRING
+               WS-TIMESTAMP DELIMITED BY SIZE
+               " - ERROR: Employee ID "
+               WS-EMP-ID
+               " not found in EMPLOYEES.DAT."
+               DELIMITED BY SIZE
+               INTO LOG-RECORD
            END-STRING
            WRITE LOG-RECORD AFTER ADVANCING 1 LINES
            .

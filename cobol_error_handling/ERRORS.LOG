@@ -6,3 +6,9 @@
 0025-07-07 16:08:47  - ERROR: Bonus too large for Employee ID 10002. Salary update failed due to overflow.
 
 0025-07-07 16:09:47  - ERROR: Employee ID 10004 not found in EMPLOYEES.DAT.
+
+0025-07-07 16:39:54  - ERROR: Employee ID 10002 not found in EMPLOYEES.DAT.
+
+0025-07-07 16:40:44  - ERROR: Bonus too large for Employee ID 10002. Salary update failed due to ove
+
+0025-07-07 16:40:56  - ERROR: Employee ID 10004 not found in EMPLOYEES.DAT.
