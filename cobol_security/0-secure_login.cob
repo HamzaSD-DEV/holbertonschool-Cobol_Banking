@@ -5,24 +5,24 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT USER-FILE ASSIGN TO "BASIC_USERS.DAT"
-               ORGANIZATION IS SEQUENTIAL
+               ORGANIZATION IS LINE SEQUENTIAL
                FILE STATUS IS WS-FILE-STATUS.
 
        DATA DIVISION.
        FILE SECTION.
        FD USER-FILE.
        01 USER-RECORD.
-           05 USER-ID          PIC X(8).
+           05 USER-ID          PIC X(7).
            05 USER-NAME        PIC X(20).
-           05 USER-PASSWORD    PIC X(8).
+           05 USER-PASSWORD    PIC X(7).
            05 USER-ACCESS-LEVEL PIC 9.
 
        WORKING-STORAGE SECTION.
        01 WS-FILE-STATUS      PIC XX.
        01 WS-EOF              PIC X VALUE 'N'.
 
-       01 INPUT-USER-ID       PIC X(8).
-       01 INPUT-PASSWORD      PIC X(8).
+       01 INPUT-USER-ID       PIC X(7).
+       01 INPUT-PASSWORD      PIC X(7).
 
        01 FOUND-FLAG          PIC X VALUE 'N'.
 
