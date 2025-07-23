@@ -37,9 +37,9 @@
            PERFORM UNTIL ATTEMPTS-LEFT = 0 OR FOUND-FLAG = 'Y'
                DISPLAY "BANKING LOGIN SYSTEM"
                DISPLAY "====================="
-               DISPLAY "Enter User ID (7 chars): "
+               DISPLAY "Enter User ID: "
                ACCEPT INPUT-USER-ID
-               DISPLAY "Enter Password (7 chars): "
+               DISPLAY "Enter Password: "
                ACCEPT INPUT-PASSWORD
 
                *> Encrypt the entered password
