@@ -89,6 +89,7 @@
                CLOSE USER-FILE
 
                IF FOUND-FLAG = 'N'
+                   DISPLAY "User not found."
                    SUBTRACT 1 FROM ATTEMPTS-LEFT
                    IF ATTEMPTS-LEFT > 0
                        DISPLAY "Attempts remaining: " ATTEMPTS-LEFT
