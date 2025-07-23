@@ -96,7 +96,7 @@
                        DISPLAY "Press Enter to continue..."
                        ACCEPT OMITTED
                    ELSE
-                       DISPLAY "Maximum attempts reached. Exiting..."
+                       DISPLAY "Too many failed attempts. Exiting..."
                    END-IF
                END-IF
            END-PERFORM
