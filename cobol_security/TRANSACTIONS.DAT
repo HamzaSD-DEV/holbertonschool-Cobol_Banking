@@ -1,0 +1,6 @@
+T09876543211234567890000000100.00pay'; DROP TABLE ACCOUNTS; -- 
+T66778899005544332211000000500.00Transfer from locked account  
+T12345678900987654321000015000.00Large transfer                
+T12345678900987654321000000250.75Monthly rent payment          
+D          6677889900000000200.00Salary deposit                
+W5544332211          000000450.00ATM withdrawal                
