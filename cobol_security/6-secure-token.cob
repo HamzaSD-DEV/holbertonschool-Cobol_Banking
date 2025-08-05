@@ -194,7 +194,7 @@
                          FUNCTION NUMVAL(WS-TIME(5:2))
                   
                   COMPUTE WS-TOK-AGE = CURRENT-SECONDS - TOKEN-SECONDS
-                  IF WS-TOK-AGE < 20
+                  IF WS-TOK-AGE < 5
                      MOVE L-USERID TO WS-LOGIN-ID
                      IF FUNCTION UPPER-CASE(WS-CMD) = 'U'
                        DISPLAY "shoing user : "

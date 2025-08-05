@@ -6,11 +6,11 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT LOGIN-FILE
-             ASSIGN TO "users-login.idx"
-             ORGANIZATION IS INDEXED
-             ACCESS MODE IS SEQUENTIAL
-             RECORD KEY IS L-USERID
-             FILE STATUS IS WS-FS-LOGIN.
+           ASSIGN TO "users-login.idx"
+           ORGANIZATION IS INDEXED
+           ACCESS MODE IS DYNAMIC
+           RECORD KEY IS L-USERID
+           FILE STATUS IS WS-FS-LOGIN.
 
        DATA DIVISION.
        FILE SECTION.
