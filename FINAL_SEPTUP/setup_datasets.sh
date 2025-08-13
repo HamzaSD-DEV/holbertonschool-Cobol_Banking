@@ -80,8 +80,8 @@ else
     echo "✓ INPUT.DATA dataset file exists"
 fi
 
-if [ ! -f "datasets/output_data.dat" ]; then
-    touch datasets/output_data.dat
+if [ ! -f "datasets/student_output_data.dat" ]; then
+    touch datasets/student_output_data.dat
     echo "✓ OUTPUT.DATA dataset file created (empty, ready for copy operation)"
 else
     echo "✓ OUTPUT.DATA dataset file exists"

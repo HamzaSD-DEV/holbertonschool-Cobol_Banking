@@ -1,5 +1,3 @@
-Warning: program compiled against libxml 212 using older 209
-Hello World from JCL Framework!
-================================
-This is a simple COBOL program demonstration
-Program executed successfully
+COBOL compiler not available or simulation forced. Simulating execution...
+Simulating execution of hello_world
+Program hello_world executed successfully
