@@ -1,0 +1,11 @@
+BATCH-VALIDATOR: Starting transaction validation...
+✓ VALID: TXN001,DEPOSIT   ,12345,1000.00,20240101                                        
+✓ VALID: TXN002,WITHDRAWAL,12346,500.00,20240101                                         
+✓ VALID: TXN003,TRANSFER  ,12345,200.00,20240101                                         
+✓ VALID: TXN004,DEPOSIT   ,12347,750.00,20240101                                         
+✗ INVALID: TXN005,INVALID   ,99999,999.99,20240101                                         
+BATCH-VALIDATOR: Validation completed
+BATCH-VALIDATOR: Total transactions: 00005
+BATCH-VALIDATOR: Valid transactions: 00004
+BATCH-VALIDATOR: Invalid transactions: 00001
+BATCH-VALIDATOR: Invalid transactions found!

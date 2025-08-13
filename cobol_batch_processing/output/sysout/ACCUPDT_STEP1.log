@@ -1,0 +1,11 @@
+Compilation failed with RC=1. Falling back to simulation...
+programs/account_updater.cbl:120: error: continuation character expected
+programs/account_updater.cbl: in paragraph 'PROCESS-SINGLE-TRANSACTION':
+programs/account_updater.cbl:109: error: 'WS' is not defined
+programs/account_updater.cbl:109: error: syntax error, unexpected -
+programs/account_updater.cbl:119: error: 'FAILED' is not defined
+programs/account_updater.cbl:119: error: syntax error, unexpected :
+programs/account_updater.cbl:119: error: invalid literal: '  ...'
+programs/account_updater.cbl:119: error: missing terminating " character
+Simulating execution of account_updater
+Program account_updater executed successfully
