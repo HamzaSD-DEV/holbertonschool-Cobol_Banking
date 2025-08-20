@@ -19,15 +19,10 @@
        
        01  WS-CUSTOMER-FIELDS.
            05  WS-CUST-ID          PIC X(5).
-           05  FILLER              PIC X VALUE ','.
            05  WS-CUST-NAME        PIC X(20).
-           05  FILLER              PIC X VALUE ','.
-           05  WS-CUST-ADDR        PIC X(20).
-           05  FILLER              PIC X VALUE ','.
-           05  WS-CUST-CITY        PIC X(15).
-           05  FILLER              PIC X VALUE ','.
+           05  WS-CUST-ADDR        PIC X(15).
+           05  WS-CUST-CITY        PIC X(10).
            05  WS-CUST-STATE       PIC X(2).
-           05  FILLER              PIC X VALUE ','.
            05  WS-CUST-ZIP         PIC X(5).
        
        PROCEDURE DIVISION.
@@ -40,10 +35,11 @@
            OPEN INPUT CUSTMAST
            
            PERFORM PROCESS-CUSTOMERS UNTIL WS-EOF-FLAG = 'Y'
+
+           PERFORM DISPLAY-SUMMARY
            
            CLOSE CUSTMAST
            
-           PERFORM DISPLAY-SUMMARY
            
            STOP RUN.
        
@@ -59,9 +55,10 @@
        DISPLAY-CUSTOMER-INFO.
            DISPLAY "Customer #" WS-CUSTOMER-COUNT ":"
            DISPLAY "  ID: " WS-CUST-ID
-           DISPLAY "  Name: " WS-CUST-NAME
-           DISPLAY "  Address: " WS-CUST-ADDR ", " WS-CUST-CITY ", " 
-                  WS-CUST-STATE " " WS-CUST-ZIP
+           DISPLAY "  Name: " FUNCTION TRIM (WS-CUST-NAME)
+           DISPLAY "  Address: " FUNCTION TRIM (WS-CUST-ADDR) " " 
+                  FUNCTION TRIM (WS-CUST-CITY) " " 
+                  FUNCTION TRIM (WS-CUST-STATE) " " WS-CUST-ZIP
            DISPLAY "  ----------------------------------".
        
        DISPLAY-SUMMARY.
