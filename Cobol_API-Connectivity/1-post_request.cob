@@ -20,10 +20,11 @@
        01  API-URL             PIC X(50)
            VALUE "https://jsonplaceholder.typicode.com/posts".
        01  JSON-PAYLOAD        PIC X(120) VALUE "{"
-               & " ""title"":""A COBOL Post"","
-               & " ""body"":""This is a post created from a COBOL program."","
-               & " ""userId"":1"
-               & "}".
+           & " ""title"":""A COBOL Post"","
+           & 
+           " ""body"":""This is a post created from a COBOL program."","
+           & " ""userId"":1"
+           & "}".
        01  Id-Value-Num        PIC 9(10).
        01  Id-Value-Display    PIC Z(9)9.
        01  SYSTEM-STATUS       PIC S9(9) BINARY.
@@ -57,7 +58,8 @@
                    PERFORM READ-ENTIRE-RESPONSE-FILE
                    PERFORM PARSE-JSON-RESPONSE
                    MOVE Id-Value-Num TO Id-Value-Display
-                   DISPLAY "New post ID: " FUNCTION TRIM(Id-Value-Display)
+                   DISPLAY "New post ID: " FUNCTION 
+                   TRIM(Id-Value-Display)
                ELSE
                    DISPLAY "API call failed. HTTP Status: "
                            HTTP-Status-Code
@@ -104,3 +106,4 @@
            UNSTRING Remainder-String DELIMITED BY '}'
                INTO Id-Value-Num
            END-UNSTRING.
+           
