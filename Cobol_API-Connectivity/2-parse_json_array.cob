@@ -1,51 +1,58 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. PARSE-WITH-JQ.
+       PROGRAM-ID. ParseJsonArrayDual.
+
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-           SELECT TODO-FILE ASSIGN TO "todos.txt"
+           SELECT TodosFile ASSIGN TO "todos.txt"
                ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.
        FILE SECTION.
-       FD  TODO-FILE.
-       01  TODO-RECORD         PIC X(256).
+       FD  TodosFile.
+       01  Todo-Line        PIC X(200).
 
        WORKING-STORAGE SECTION.
-       01 CURL-JQ-COMMAND      PIC X(200) VALUE
-           "curl -s ""https://jsonplaceholder.typicode.com/todos?_limit=10"" | jq -r '.[].title' > todos.txt".
-       01 SYSTEM-STATUS        PIC S9(9) BINARY.
-
-       01 WS-FILE-STATUS       PIC X.
-           88 EOF-REACHED      VALUE 'Y' FALSE 'N'.
+       77  WS-Command       PIC X(300).
+       77  WS-Status        PIC S9(9) COMP-5.
+       77  WS-EOF           PIC X VALUE "N".
 
        PROCEDURE DIVISION.
-       MAIN-LOGIC.
-           DISPLAY "Fetching and processing to-do list...".
-           
-           CALL "SYSTEM" USING CURL-JQ-COMMAND
-                         RETURNING SYSTEM-STATUS.
+       MAIN-PARA.
+           DISPLAY "Fetching raw JSON and extracting to-do titles...".
 
-           IF SYSTEM-STATUS = 0
-               DISPLAY "API call successful. Displaying titles:"
-               PERFORM READ-TITLES-FILE
-           ELSE
-               DISPLAY "Error: Command failed with status: "
-                       SYSTEM-STATUS
+      * Step 1: Save raw JSON to file
+           MOVE "curl -s https://jsonplaceholder.typicode.com/todos?_lim
+      -    "it=10 > todos.json"
+             TO WS-Command.
+           CALL "SYSTEM" USING WS-Command RETURNING WS-Status.
+
+           IF WS-Status NOT = 0
+              DISPLAY 
+              "Error: Failed to fetch JSON (status " WS-Status ")"
+              STOP RUN
            END-IF.
+
+      * Step 2: Extract only titles with jq into todos.txt
+           MOVE "jq -r '.[].title' todos.json > todos.txt"
+             TO WS-Command.
+           CALL "SYSTEM" USING WS-Command RETURNING WS-Status.
+
+           IF WS-Status NOT = 0
+              DISPLAY "Error: jq failed (status " WS-Status ")"
+              STOP RUN
+           END-IF.
+
+      * Step 3: Read and display titles
+           DISPLAY "API call successful. Displaying titles:".
+           OPEN INPUT TodosFile
+           PERFORM UNTIL WS-EOF = "Y"
+               READ TodosFile
+                   AT END MOVE "Y" TO WS-EOF
+                   NOT AT END DISPLAY FUNCTION TRIM (Todo-Line)
+               END-READ
+           END-PERFORM
+           CLOSE TodosFile.
 
            DISPLAY "Done.".
            STOP RUN.
-
-       READ-TITLES-FILE.
-           SET EOF-REACHED TO FALSE.
-           OPEN INPUT TODO-FILE.
-           PERFORM UNTIL EOF-REACHED
-               READ TODO-FILE
-                   AT END
-                       SET EOF-REACHED TO TRUE
-                   NOT AT END
-                       DISPLAY FUNCTION TRIM(TODO-RECORD)
-               END-READ
-           END-PERFORM.
-           CLOSE TODO-FILE.
