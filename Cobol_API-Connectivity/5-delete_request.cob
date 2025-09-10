@@ -23,7 +23,7 @@
 
        PROCEDURE DIVISION.
        MAIN-LOGIC.
-           DISPLAY "Sending DELETE request to JSONPlaceholder...".
+           DISPLAY "Sending DELETE request to JSONPlaceholder..."
 
            STRING "curl -s -X DELETE " API-URL
                   " -o delete_response.json"
@@ -35,13 +35,14 @@
            IF SYSTEM-STATUS = 0
                DISPLAY "API call command executed successfully."
                PERFORM READ-RESPONSE-FILE
-               DISPLAY "Post 1 has been marked for deletion on the server."
+               DISPLAY 
+               "Post 1 has been marked for deletion on the server."
            ELSE
                DISPLAY "Error: API call command failed with status: "
                        SYSTEM-STATUS
            END-IF.
 
-           DISPLAY "Done.".
+           DISPLAY "Done."
            STOP RUN.
 
        READ-RESPONSE-FILE.
