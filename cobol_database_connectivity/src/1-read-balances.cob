@@ -40,4 +40,3 @@ IDENTIFICATION DIVISION.
            IF RC = 0 THEN
                DISPLAY "-> Account " FUNCTION TRIM(C1)
                        ", balance " FUNCTION TRIM(C2).
-                       
