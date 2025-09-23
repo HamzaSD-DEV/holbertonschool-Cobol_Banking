@@ -7,7 +7,7 @@ IDENTIFICATION DIVISION.
            VALUE "host=localhost dbname=schooldb user=postgres password=postgres".
        01  SQL-LIT-1 PIC X(200)
            VALUE "SELECT account_id, balance FROM accounts ORDER BY account_id".
-       01  SQL-LIT-2 PIC X(200) VALUE "SELECT nope FROM accounts;".
+       01  SQL-LIT-2 PIC X(200) VALUE "SELECT nope FROM accounts".
        01  L PIC 9(4) VALUE 0.
 
        PROCEDURE DIVISION.
