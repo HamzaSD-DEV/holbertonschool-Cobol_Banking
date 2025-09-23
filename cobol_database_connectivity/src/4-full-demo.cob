@@ -40,7 +40,7 @@ IDENTIFICATION DIVISION.
                USING BY VALUE DBH, BY REFERENCE SQL-COMMAND
                RETURNING STMT.
            IF STMT = NULL-PTR THEN
-               DISPLAY "ERROR: Query failed"
+               DISPLAY "ERROR: Query failed : '" FUNCTION TRIM(SQL-COMMAND) "'"
            END-IF.
 
            CALL STATIC "DB_DISCONNECT" USING BY VALUE DBH RETURNING RC.
