@@ -15,7 +15,7 @@ IDENTIFICATION DIVISION.
        01  CONN-LIT PIC X(200)
            VALUE "host=localhost dbname=schooldb user=postgres password=postgres".
        01  L PIC 9(4) VALUE 0.
-       01  TX-FILE-STATUS PIC XX.
+       01  TX-FILE-STATUS PIC X(2).
        01  TX-DATA.
            05 TX-ACTION         PIC X(8).
            05 TX-FROM-ACCT      PIC X(4).
