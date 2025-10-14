@@ -51,31 +51,31 @@ IDENTIFICATION DIVISION.
 
        HANDLE-CLOSE.
            MOVE SPACES TO SQL-COMMAND.
-           MOVE SPACES TO SINGLE-RESULT-BUFFER.  *> Clear the result buffer
+           MOVE SPACES TO SINGLE-RESULT-BUFFER.
            STRING "SELECT balance FROM accounts WHERE customer_id = '"
                FUNCTION TRIM(TX-ID) "';" DELIMITED BY SIZE INTO SQL-COMMAND.
-    
+
            CALL STATIC "DB_QUERY_SINGLE"
                USING BY VALUE DBH, BY REFERENCE SQL-COMMAND,
                      BY REFERENCE SINGLE-RESULT-BUFFER
                RETURNING RC.
-    
+
+           DISPLAY "Query RC: " RC " for customer " FUNCTION TRIM(TX-ID)
+           DISPLAY "Result buffer: '" SINGLE-RESULT-BUFFER "'"
+           DISPLAY "Result buffer length: " FUNCTION LENGTH(SINGLE-RESULT-BUFFER)
+
            EVALUATE RC
                WHEN 0
                    MOVE FUNCTION NUMVAL(SINGLE-RESULT-BUFFER) TO CURRENT-BALANCE
+                   DISPLAY "Converted balance: " CURRENT-BALANCE
                    IF CURRENT-BALANCE > 0 THEN
                        DISPLAY "SKIPPED: Cannot close account for customer "
                                FUNCTION TRIM(TX-ID) ", balance is not zero."
                    ELSE
+                       DISPLAY "PROCEEDING: Balance is zero, closing account for customer "
+                               FUNCTION TRIM(TX-ID)
                        PERFORM DELETE-RECORDS
-                   END-IF
-               WHEN -1
-                   DISPLAY "SKIPPED: Could not find account for customer "
-                           FUNCTION TRIM(TX-ID)
-               WHEN OTHER
-                   DISPLAY "ERROR: Database query failed for customer "
-                           FUNCTION TRIM(TX-ID) " with RC: " RC
-           END-EVALUATE.
+                   END-IF.
 
        DELETE-RECORDS.
            *> Build first DELETE command with proper null-termination
