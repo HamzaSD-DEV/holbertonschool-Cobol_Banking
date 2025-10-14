@@ -35,7 +35,7 @@ INSERT INTO accounts (account_id, customer_id, balance) VALUES
 (1001, 101, 1111.11),
 (2002, 202, 2222.22),
 (3003, 303, 3333.33),
-(4004, 404, 4444.44);
+(4004, 404, 0.0);
 
 -- Grant all necessary permissions to the student user
 GRANT ALL ON customers, accounts, tx_log TO postgres;
