@@ -21,6 +21,11 @@ IDENTIFICATION DIVISION.
            05 TX-ID             PIC X(4).
        01  CURRENT-BALANCE      PIC S9(8)V99.
        01  PTR                 PIC 9(4) COMP.
+       01  BALANCE-STR          PIC X(20).
+       01  INT-PART             PIC X(10).
+       01  DEC-PART             PIC X(10).
+       01  WS-INTEGER           PIC 9(8).
+       01  WS-DECIMAL           PIC 9(2).
 
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
@@ -53,32 +58,52 @@ IDENTIFICATION DIVISION.
            MOVE SPACES TO SQL-COMMAND.
            MOVE SPACES TO SINGLE-RESULT-BUFFER.
            STRING "SELECT balance FROM accounts WHERE customer_id = '"
-               FUNCTION TRIM(TX-ID) "';" DELIMITED BY SIZE INTO SQL-COMMAND.
-
+               FUNCTION TRIM(TX-ID) "'" DELIMITED BY SIZE INTO SQL-COMMAND.
+    
            CALL STATIC "DB_QUERY_SINGLE"
                USING BY VALUE DBH, BY REFERENCE SQL-COMMAND,
                      BY REFERENCE SINGLE-RESULT-BUFFER
                RETURNING RC.
-
-           DISPLAY "Query RC: " RC " for customer " FUNCTION TRIM(TX-ID)
-           DISPLAY "Result buffer: '" SINGLE-RESULT-BUFFER "'"
-           DISPLAY "Result buffer length: " FUNCTION LENGTH(SINGLE-RESULT-BUFFER)
-
+    
            EVALUATE RC
                WHEN 0
-                   COMPUTE CURRENT-BALANCE = FUNCTION NUMVAL(FUNCTION TRIM(SINGLE-RESULT-BUFFER))
-                   DISPLAY "Converted balance: " CURRENT-BALANCE
+                   *> Parse the balance manually
+                   MOVE FUNCTION TRIM(SINGLE-RESULT-BUFFER) TO BALANCE-STR
+                   MOVE 0 TO CURRENT-BALANCE
+                   MOVE 0 TO WS-INTEGER
+                   MOVE 0 TO WS-DECIMAL
+                   
+                   UNSTRING BALANCE-STR
+                       DELIMITED BY "." OR ALL SPACES
+                       INTO INT-PART, DEC-PART
+                   END-UNSTRING
+                   
+                   MOVE FUNCTION NUMVAL(FUNCTION TRIM(INT-PART)) 
+                     TO WS-INTEGER
+                   MOVE FUNCTION NUMVAL(FUNCTION TRIM(DEC-PART)) 
+                     TO WS-DECIMAL
+                   
+                   COMPUTE CURRENT-BALANCE = 
+                       WS-INTEGER + (WS-DECIMAL / 100)
+                   
+                   DISPLAY "Parsed balance: " CURRENT-BALANCE 
+                           " from '" BALANCE-STR "'"
+                   
                    IF CURRENT-BALANCE > 0 THEN
                        DISPLAY "SKIPPED: Cannot close account for customer "
                                FUNCTION TRIM(TX-ID) ", balance is not zero."
                    ELSE
-                       DISPLAY "PROCEEDING: Balance is zero, closing account for customer "
-                               FUNCTION TRIM(TX-ID)
                        PERFORM DELETE-RECORDS
-                   END-IF.
+                   END-IF
+               WHEN -1
+                   DISPLAY "SKIPPED: Could not find account for customer "
+                           FUNCTION TRIM(TX-ID)
+               WHEN OTHER
+                   DISPLAY "ERROR: Database query failed for customer "
+                           FUNCTION TRIM(TX-ID) " with RC: " RC
+           END-EVALUATE.
 
        DELETE-RECORDS.
-           *> Build first DELETE command with proper null-termination
            MOVE SPACES TO SQL-COMMAND.
            STRING 
                "DELETE FROM accounts WHERE customer_id = '"
@@ -87,8 +112,6 @@ IDENTIFICATION DIVISION.
                DELIMITED BY SIZE 
                INTO SQL-COMMAND
            END-STRING.
-    
-           *> Simple null termination at position 100 (safe position)
            MOVE X"00" TO SQL-COMMAND(100:1).
     
            CALL STATIC "DB_EXEC"
@@ -98,7 +121,6 @@ IDENTIFICATION DIVISION.
                EXIT PARAGRAPH
            END-IF.
 
-           *> Build second DELETE command with proper null-termination
            MOVE SPACES TO SQL-COMMAND.
            STRING 
                "DELETE FROM customers WHERE customer_id = '"
@@ -107,8 +129,6 @@ IDENTIFICATION DIVISION.
                DELIMITED BY SIZE 
                INTO SQL-COMMAND
            END-STRING.
-    
-           *> Simple null termination at position 100
            MOVE X"00" TO SQL-COMMAND(100:1).
     
            CALL STATIC "DB_EXEC"
@@ -119,4 +139,3 @@ IDENTIFICATION DIVISION.
                DISPLAY "SUCCESS: Closed account for customer " 
                        FUNCTION TRIM(TX-ID)
            END-IF.
-
