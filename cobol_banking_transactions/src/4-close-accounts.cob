@@ -66,7 +66,7 @@ IDENTIFICATION DIVISION.
 
            EVALUATE RC
                WHEN 0
-                   MOVE FUNCTION NUMVAL(SINGLE-RESULT-BUFFER) TO CURRENT-BALANCE
+                   COMPUTE CURRENT-BALANCE = FUNCTION NUMVAL(FUNCTION TRIM(SINGLE-RESULT-BUFFER))
                    DISPLAY "Converted balance: " CURRENT-BALANCE
                    IF CURRENT-BALANCE > 0 THEN
                        DISPLAY "SKIPPED: Cannot close account for customer "
