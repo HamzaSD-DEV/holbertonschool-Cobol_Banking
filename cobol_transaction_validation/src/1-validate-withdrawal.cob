@@ -22,6 +22,9 @@ IDENTIFICATION DIVISION.
            05 TX-AMOUNT         PIC X(10).
        01  CURRENT-BALANCE      PIC S9(8)V99.
        01  WITHDRAWAL-AMOUNT    PIC S9(8)V99.
+       01  BALANCE-STR          PIC X(20).
+       01  BAL-INTEGER          PIC X(10).
+       01  BAL-DECIMAL          PIC X(10).
 
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
