@@ -79,9 +79,6 @@ IDENTIFICATION DIVISION.
                    FUNCTION TRIM(TX-AMOUNT)
                ) TO WITHDRAWAL-AMOUNT
 
-               DISPLAY "Debug: Current balance: " CURRENT-BALANCE
-                       " Withdrawal amount: " WITHDRAWAL-AMOUNT
-
                IF CURRENT-BALANCE >= WITHDRAWAL-AMOUNT THEN
                    PERFORM EXECUTE-UPDATE
                ELSE
