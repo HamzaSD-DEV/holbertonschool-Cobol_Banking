@@ -76,6 +76,7 @@ int DB_FETCH(void *vstmt, char *c1, char *c2, char *c3) {
     return 0;
 }
 
+// -- NEW FUNCTION FOR VALIDATION --
 int DB_QUERY_SINGLE(void *dbh, const char *sql, char* result_buffer) {
     if (!dbh || !sql || !result_buffer) return -1;
     char *q = dup_trim_cstr(sql);
@@ -89,14 +90,9 @@ int DB_QUERY_SINGLE(void *dbh, const char *sql, char* result_buffer) {
     return 0;
 }
 
+// -- NEW FUNCTIONS FOR TRANSACTION CONTROL --
 int DB_BEGIN(void *dbh) { return DB_EXEC(dbh, "BEGIN"); }
 int DB_COMMIT(void *dbh) { return DB_EXEC(dbh, "COMMIT"); }
 int DB_ROLLBACK(void *dbh) { return DB_EXEC(dbh, "ROLLBACK"); }
 
-int DB_NUM_ROWS(void *vstmt) {
-    if (!vstmt) return -1;
-    stmt_t *s = (stmt_t*)vstmt;
-    return PQntuples(s->res);
-}
-
-}
+} // End of extern "C"

@@ -1,5 +1,5 @@
-# Makefile for COBOL  Project  Transaction Validation
-
+# Makefile for COBOL Transaction Validation Project
+# --- Variables ---
 BUILD   := build
 SRC     := src
 COPY    := copy
@@ -15,6 +15,8 @@ LINKFLAGS:= -L$(LIBDIR) -lpgcob
 
 WRAPPER_LIB := $(LIBDIR)/libpgcob.so
 
+# --- Main Targets ---
+
 all: $(patsubst $(SRC)/%.cob,$(BUILD)/%,$(wildcard $(SRC)/*.cob))
 
 $(WRAPPER_LIB): db-wrapper.c
@@ -27,15 +29,17 @@ $(BUILD)/%: $(SRC)/%.cob $(WRAPPER_LIB)
 	@$(COBC) $(COBFLAGS) $< -o $@ $(LINKFLAGS)
 	@echo "✅ Compiled $< -> $@"
 
+# --- Utility Targets ---
+
 db-setup:
 	@DB_PASSWORD=postgres ./reset-db.sh
 
-load-proc:
-	@echo "Loading stored procedure..."
-	@PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -d schooldb -f stored_procedure.sql
-	@echo "✅ Stored procedure loaded."
+# --- Student Test Runners ---
 
-# --- Individual Task Runners ---
+smoke-test: $(BUILD)/smoke
+	@echo "--- Running Environment Smoke Test ---"
+	@LD_LIBRARY_PATH=./lib ./build/smoke
+	@echo "--- Smoke Test Complete ---"
 
 run-1: $(BUILD)/1-validate-withdrawal
 	@echo "--- Running Task 1: Validate Withdrawal ---"
@@ -61,4 +65,4 @@ clean:
 	@rm -rf $(BUILD)/* $(LIBDIR)/*
 	@echo "🧹 Cleaned build and lib directories."
 
-.PHONY: all db-setup load-proc run-1 run-2 run-3 run-4 clean
+.PHONY: all db-setup smoke-test run-1 run-2 run-3 run-4 run-5 clean
