@@ -54,7 +54,6 @@ IDENTIFICATION DIVISION.
        VALIDATE-AND-PROCESS.
            MOVE SPACES TO SQL-COMMAND.
            MOVE SPACES TO SINGLE-RESULT-BUFFER.
-           *> Build SELECT query with quotes around account_id
            STRING 
                "SELECT balance FROM accounts WHERE account_id = '"
                FUNCTION TRIM(TX-ACCOUNT-ID) 
@@ -62,7 +61,6 @@ IDENTIFICATION DIVISION.
                DELIMITED BY SIZE 
                INTO SQL-COMMAND
            END-STRING.
-           *> Null-terminate
            MOVE X"00" TO SQL-COMMAND(100:1).
 
            CALL STATIC "DB_QUERY_SINGLE"
@@ -71,13 +69,20 @@ IDENTIFICATION DIVISION.
                RETURNING RC.
 
            IF RC = 0 THEN
-               *> Convert both amounts to numeric
-               MOVE FUNCTION NUMVAL(
-                   FUNCTION TRIM(SINGLE-RESULT-BUFFER)
-               ) TO CURRENT-BALANCE
-               MOVE FUNCTION NUMVAL(
-                   FUNCTION TRIM(TX-AMOUNT)
-               ) TO WITHDRAWAL-AMOUNT
+               *> Manual parsing of balance value
+               MOVE 0 TO CURRENT-BALANCE
+               MOVE FUNCTION TRIM(SINGLE-RESULT-BUFFER) TO BALANCE-STR
+               UNSTRING BALANCE-STR
+                   DELIMITED BY "." OR ALL SPACES
+                   INTO BAL-INTEGER, BAL-DECIMAL
+               END-UNSTRING
+               COMPUTE CURRENT-BALANCE = 
+                   FUNCTION NUMVAL(FUNCTION TRIM(BAL-INTEGER)) + 
+                   (FUNCTION NUMVAL(FUNCTION TRIM(BAL-DECIMAL)) / 100)
+
+               *> Convert withdrawal amount
+               MOVE FUNCTION NUMVAL(FUNCTION TRIM(TX-AMOUNT)) 
+                 TO WITHDRAWAL-AMOUNT
 
                DISPLAY "Debug: Current balance: " CURRENT-BALANCE
                        " Withdrawal amount: " WITHDRAWAL-AMOUNT
