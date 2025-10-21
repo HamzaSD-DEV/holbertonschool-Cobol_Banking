@@ -46,6 +46,7 @@
            05 WS-TXN-AMT   PIC 9(8)V99.
            05 FILLER       PIC X VALUE ','.
            05 WS-TXN-DATE  PIC X(8).
+       01  WS-UPDATED-RECORD       PIC X(80).
 
        PROCEDURE DIVISION.
        MAIN-LOGIC.
@@ -58,7 +59,8 @@
                READ ACC-FILE
                    AT END MOVE 'Y' TO WS-EOF-ACC
                    NOT AT END
-                       MOVE ACC-RECORD TO UPDATED-RECORD
+                       MOVE ACC-RECORD TO WS-UPDATED-RECORD
+                       MOVE WS-UPDATED-RECORD TO UPDATED-RECORD
                        WRITE UPDATED-RECORD
                END-READ
            END-PERFORM
