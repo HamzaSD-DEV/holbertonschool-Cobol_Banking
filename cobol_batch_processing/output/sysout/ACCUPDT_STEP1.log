@@ -1,14 +1,3 @@
 Warning: program compiled against libxml 212 using older 209
-ACCOUNT-UPDATER: Starting account updates...
-UPDATED: TXN001,DEPOSIT   ,12345,1000.00,20240101                                        
- -> Account: 12345 Balance updated 
-UPDATED: TXN002,WITHDRAWAL,12346,500.00,20240101                                         
- -> Account: 12346 Balance updated 
-UPDATED: TXN003,TRANSFER  ,12345,200.00,20240101                                         
- -> Account: 12345 Balance updated 
-UPDATED: TXN004,DEPOSIT   ,12347,750.00,20240101                                         
- -> Account: 12347 Balance updated 
-ACCOUNT-UPDATER: Updates completed
-ACCOUNT-UPDATER: Transactions processed: 00004
-ACCOUNT-UPDATER: Successful transactions: 00004
-ACCOUNT-UPDATER: Failed transactions: 00000
+ACCOUNT-UPDATER: Starting processing...
+ACCOUNT-UPDATER: Processing completed

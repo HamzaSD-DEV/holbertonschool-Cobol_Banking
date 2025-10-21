@@ -3,23 +3,28 @@ IDENTIFICATION DIVISION.
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-           SELECT TX-FILE ASSIGN TO "../transactions.dat".
+           SELECT TX-FILE ASSIGN TO "transactions.dat"
+               ORGANIZATION IS LINE SEQUENTIAL
+               FILE STATUS IS TX-FILE-STATUS.
        DATA DIVISION.
        FILE SECTION.
        FD  TX-FILE.
        01  TX-RECORD            PIC X(200).
        WORKING-STORAGE SECTION.
        COPY "dbapi.cpy".
-       01  CONN-LIT PIC X(200) VALUE "host=localhost dbname=schooldb user=postgres password=postgres".
+       01  CONN-LIT PIC X(200) 
+           VALUE "host=localhost dbname=schooldb user=postgres password=postgres".
        01  L PIC 9(4) VALUE 0.
        01  TX-FILE-STATUS PIC XX.
-       01  SQL-LIT              PIC X(200).
        01  TX-DATA.
            05 TX-ACTION         PIC X(8).
            05 TX-ACCOUNT-ID     PIC X(4).
            05 TX-AMOUNT         PIC X(10).
        01  CURRENT-BALANCE      PIC S9(8)V99.
        01  WITHDRAWAL-AMOUNT    PIC S9(8)V99.
+       01  BALANCE-STR          PIC X(20).
+       01  BAL-INTEGER          PIC X(10).
+       01  BAL-DECIMAL          PIC X(10).
 
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
@@ -27,63 +32,122 @@ IDENTIFICATION DIVISION.
            COMPUTE L = FUNCTION LENGTH(FUNCTION TRIM(CONN-LIT)).
            MOVE CONN-LIT(1:L) TO DB-CONNSTR(1:L).
            MOVE X"00" TO DB-CONNSTR(L + 1:1).
+
            CALL STATIC "DB_CONNECT" USING DB-CONNSTR RETURNING DBH.
            IF DBH = NULL-PTR THEN STOP RUN.
+
            OPEN INPUT TX-FILE.
            PERFORM PROCESS-WITHDRAWALS UNTIL TX-FILE-STATUS NOT = "00".
            CLOSE TX-FILE.
+
            CALL STATIC "DB_DISCONNECT" USING BY VALUE DBH RETURNING RC.
            GOBACK.
+
        PROCESS-WITHDRAWALS.
-           READ TX-FILE AT END SET TX-FILE-STATUS TO "10".
+           READ TX-FILE AT END MOVE "10" TO TX-FILE-STATUS.
            IF TX-FILE-STATUS = "00" THEN
                UNSTRING TX-RECORD DELIMITED BY ","
                    INTO TX-ACTION, TX-ACCOUNT-ID, TX-AMOUNT
-               PERFORM VALIDATE-AND-PROCESS
+               *> Only process WITHDRAW actions
+               IF FUNCTION UPPER-CASE(FUNCTION TRIM(TX-ACTION)) = "WITHDRAW"
+                   PERFORM VALIDATE-AND-PROCESS
+               END-IF
            END-IF.
+
        VALIDATE-AND-PROCESS.
            MOVE SPACES TO SQL-COMMAND.
-           STRING "SELECT balance FROM accounts WHERE account_id = "
-               FUNCTION TRIM(TX-ACCOUNT-ID) INTO SQL-LIT.
-           COMPUTE L = FUNCTION LENGTH(FUNCTION TRIM(SQL-LIT)).
-           MOVE SQL-LIT(1:L) TO SQL-COMMAND(1:L).
-           MOVE X"00" TO SQL-COMMAND(L + 1:1).
-           CALL "DB_QUERY_SINGLE"
+           MOVE SPACES TO SINGLE-RESULT-BUFFER.
+           *> Build SELECT query with quotes
+           STRING 
+               "SELECT balance FROM accounts WHERE account_id = '"
+               FUNCTION TRIM(TX-ACCOUNT-ID) 
+               "'"
+               DELIMITED BY SIZE 
+               INTO SQL-COMMAND
+           END-STRING.
+           MOVE X"00" TO SQL-COMMAND(100:1).
+
+           CALL STATIC "DB_QUERY_SINGLE"
                USING BY VALUE DBH, BY REFERENCE SQL-COMMAND,
                      BY REFERENCE SINGLE-RESULT-BUFFER
                RETURNING RC.
+
            IF RC = 0 THEN
-               MOVE FUNCTION NUMVAL(SINGLE-RESULT-BUFFER) TO CURRENT-BALANCE
-               MOVE FUNCTION NUMVAL(TX-AMOUNT) TO WITHDRAWAL-AMOUNT
+               *> Manual parsing of balance (to avoid NUMVAL issues)
+               MOVE 0 TO CURRENT-BALANCE
+               MOVE FUNCTION TRIM(SINGLE-RESULT-BUFFER) TO BALANCE-STR
+               
+               UNSTRING BALANCE-STR
+                   DELIMITED BY "." OR ALL SPACES
+                   INTO BAL-INTEGER, BAL-DECIMAL
+               END-UNSTRING
+               
+               COMPUTE CURRENT-BALANCE = 
+                   FUNCTION NUMVAL(FUNCTION TRIM(BAL-INTEGER)) + 
+                   (FUNCTION NUMVAL(FUNCTION TRIM(BAL-DECIMAL)) / 100)
+
+               *> Convert withdrawal amount
+               MOVE FUNCTION NUMVAL(FUNCTION TRIM(TX-AMOUNT)) 
+                 TO WITHDRAWAL-AMOUNT
+
                IF CURRENT-BALANCE >= WITHDRAWAL-AMOUNT THEN
                    PERFORM EXECUTE-UPDATE-AND-AUDIT
+               ELSE
+                   DISPLAY "Validation FAILED: Insufficient funds for account "
+                           FUNCTION TRIM(TX-ACCOUNT-ID)
                END-IF
+           ELSE
+               DISPLAY "ERROR: Could not find account " 
+                       FUNCTION TRIM(TX-ACCOUNT-ID)
            END-IF.
+
        EXECUTE-UPDATE-AND-AUDIT.
            MOVE SPACES TO SQL-COMMAND.
-           STRING "UPDATE accounts SET balance = balance - "
-               FUNCTION TRIM(TX-AMOUNT) " WHERE account_id = "
-               FUNCTION TRIM(TX-ACCOUNT-ID) INTO SQL-LIT.
-           COMPUTE L = FUNCTION LENGTH(FUNCTION TRIM(SQL-LIT)).
-           MOVE SQL-LIT(1:L) TO SQL-COMMAND(1:L).
-           MOVE X"00" TO SQL-COMMAND(L + 1:1).
-           CALL "DB_EXEC"
+           *> Build UPDATE query with quotes
+           STRING 
+               "UPDATE accounts SET balance = balance - "
+               FUNCTION TRIM(TX-AMOUNT) 
+               " WHERE account_id = '"
+               FUNCTION TRIM(TX-ACCOUNT-ID) 
+               "'"
+               DELIMITED BY SIZE 
+               INTO SQL-COMMAND
+           END-STRING.
+           MOVE X"00" TO SQL-COMMAND(100:1).
+
+           CALL STATIC "DB_EXEC"
                USING BY VALUE DBH, BY REFERENCE SQL-COMMAND
                RETURNING RC.
+
            IF RC = 0 THEN
                PERFORM LOG-TRANSACTION
+           ELSE
+               DISPLAY "ERROR: Update failed for account " 
+                       FUNCTION TRIM(TX-ACCOUNT-ID)
            END-IF.
+
        LOG-TRANSACTION.
            MOVE SPACES TO SQL-COMMAND.
-           STRING "CALL LOG_TRANSACTION(" FUNCTION TRIM(TX-ACCOUNT-ID)
-               ", " FUNCTION TRIM(TX-AMOUNT) ", 'WITHDRAW')" INTO SQL-LIT.
-           COMPUTE L = FUNCTION LENGTH(FUNCTION TRIM(SQL-LIT)).
-           MOVE SQL-LIT(1:L) TO SQL-COMMAND(1:L).
-           MOVE X"00" TO SQL-COMMAND(L + 1:1).
-           CALL "DB_EXEC"
+           *> Build CALL statement for stored procedure
+           STRING 
+               "CALL log_transaction("
+               FUNCTION TRIM(TX-ACCOUNT-ID) 
+               ", "
+               FUNCTION TRIM(TX-AMOUNT) 
+               ", 'WITHDRAW')"
+               DELIMITED BY SIZE 
+               INTO SQL-COMMAND
+           END-STRING.
+           MOVE X"00" TO SQL-COMMAND(100:1).
+
+           CALL STATIC "DB_EXEC"
                USING BY VALUE DBH, BY REFERENCE SQL-COMMAND
                RETURNING RC.
+
            IF RC = 0 THEN
                DISPLAY "SUCCESS: Withdrawal and audit log complete for account "
+                       FUNCTION TRIM(TX-ACCOUNT-ID)
+           ELSE
+               DISPLAY "ERROR: Audit log failed for account " 
                        FUNCTION TRIM(TX-ACCOUNT-ID)
            END-IF.
