@@ -1,0 +1,41 @@
+[exec_bash_contains] Command to run:
+cd cobol_batch_processing && ./jcl_parser.sh jobs/account_updater.jcl && cat output/datasets/accounts_updated.dat
+su student_jail -c 'timeout 30 bash -c '"'"'cd cobol_batch_processing && ./jcl_parser.sh jobs/account_updater.jcl && cat output/datasets/accounts_updated.dat'"'"''
+[exec_bash_contains] Return code: 1
+[exec_bash_contains] Student stdout:
+JCL Simulation Framework
+========================
+JCL Simulation Environment initialized
+Output base directory: ./output
+SYSOUT directory: ./output/sysout
+Dataset directory: ./output/datasets
+📁 Note: Outputs are persistent and will survive system reboots
+Parsing JCL file: jobs/account_updater.jcl
+==================================
+JOB: ACCUPDT (Class: A, MsgClass: X)
+INFO: Skipping line: //* Task 2: Account Updater
+INFO: Skipping line: //* Student: [YOUR NAME]
+INFO: Skipping line: //*
+STEP: STEP1 (Program: UPDATER, Condition: )
+  DD: ACCOUNTS -> ACCOUNTS.MASTER (DISP: OLD)
+  DD: TRANSIN -> TRANSACTIONS.VALIDATED (DISP: SHR)
+  DD: TRANSOUT -> ACCOUNTS.UPDATED (DISP: NEW,CATLG,DELETE)
+  DD: SYSOUT -> SYSOUT (DISP: )
+Executing step: STEP1
+Program: UPDATER
+Setting up environment for step: STEP1
+Step STEP1 completed with return code: 1
+JCL parsing completed
+Job ACCUPDT completed with return code: 0
+Job Summary:
+============
+Job Name: ACCUPDT
+Steps Executed: 1
+Final Return Code: 0
+SYSOUT Location: ./output/sysout
+Datasets Location: ./output/datasets
+[exec_bash_contains] Student stdout length: 1061
+[exec_bash_contains] Student stderr:
+cat: output/datasets/accounts_updated.dat: No such file or directory
+[exec_bash_contains] Student stderr length: 69
+[exec_bash_contains] Pattern not found: 12345,JOHN DOE,CHECKING,5800.00

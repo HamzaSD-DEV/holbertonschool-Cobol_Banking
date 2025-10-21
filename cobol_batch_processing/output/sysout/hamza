@@ -1,0 +1,52 @@
+[exec_bash_contains] Command to run:
+cd cobol_batch_processing && ./jcl_parser.sh jobs/account_updater.jcl && cat output/datasets/accounts_updated.dat
+su student_jail -c 'timeout 30 bash -c '"'"'cd cobol_batch_processing && ./jcl_parser.sh jobs/account_updater.jcl && cat output/datasets/accounts_updated.dat'"'"''
+[exec_bash_contains] Return code: 0
+[exec_bash_contains] Student stdout:
+JCL Simulation Framework
+========================
+JCL Simulation Environment initialized
+Output base directory: ./output
+SYSOUT directory: ./output/sysout
+Dataset directory: ./output/datasets
+📁 Note: Outputs are persistent and will survive system reboots
+Parsing JCL file: jobs/account_updater.jcl
+==================================
+JOB: ACCUPDT (Class: A, MsgClass: X)
+INFO: Skipping line: //*
+INFO: Skipping line: //* Task 2: Account Updater
+INFO: Skipping line: //* Student: [YOUR NAME]
+INFO: Skipping line: //*
+INFO: Skipping line: //* This job processes validated transactions:
+INFO: Skipping line: //* - Reads validated transaction file
+INFO: Skipping line: //* - Reads account master file
+INFO: Skipping line: //* - Updates account balances
+INFO: Skipping line: //* - Reports processing statistics
+INFO: Skipping line: //*
+STEP: STEP1 (Program: UPDATER, Condition: )
+  DD: ACCOUNTS -> ACCOUNTS.MASTER (DISP: OLD)
+  DD: TRANSIN -> TRANSACTIONS.VALIDATED (DISP: SHR)
+  DD: TRANSOUT -> ACCOUNTS.UPDATED (DISP: NEW,CATLG,DELETE)
+  DD: SYSOUT -> SYSOUT (DISP: )
+Executing step: STEP1
+Program: UPDATER
+Setting up environment for step: STEP1
+Step STEP1 completed with return code: 0
+JCL parsing completed
+Job ACCUPDT completed with return code: 0
+Job Summary:
+============
+Job Name: ACCUPDT
+Steps Executed: 1
+Final Return Code: 0
+SYSOUT Location: ./output/sysout
+Datasets Location: ./output/datasets
+12345,JOHN DOE,CHECKING,5800.00
+12346,JANE SMITH,SAVINGS,2500.00
+12347,BOB JOHNSON,CHECKING,2250.00
+[exec_bash_contains] Student stdout length: 1501
+[exec_bash_contains] Student stderr:
+[exec_bash_contains] Student stderr length: 0
+[exec_bash_contains] Pattern found: 12345,JOHN DOE,CHECKING,5800.00
+[exec_bash_contains] Pattern found: 12346,JANE SMITH,SAVINGS,2500.00
+[exec_bash_contains] Pattern found: 12347,BOB JOHNSON,CHECKING,2250.00
