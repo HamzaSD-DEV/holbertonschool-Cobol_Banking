@@ -25,8 +25,6 @@ IDENTIFICATION DIVISION.
        01  BALANCE-STR          PIC X(20).
        01  BAL-INTEGER          PIC X(10).
        01  BAL-DECIMAL          PIC X(10).
-       01  WS-POS               PIC 9(4).
-       01  DECIMAL-FOUND        PIC 9.
 
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
@@ -74,35 +72,16 @@ IDENTIFICATION DIVISION.
                RETURNING RC.
 
            IF RC = 0 THEN
-               *> Improved manual parsing with better decimal handling
+               *> Manual parsing of balance value
                MOVE 0 TO CURRENT-BALANCE
                MOVE FUNCTION TRIM(SINGLE-RESULT-BUFFER) TO BALANCE-STR
-               DISPLAY "Raw balance string: '" BALANCE-STR "'"
-        
-               *> Find the decimal point position
-               MOVE 1 TO WS-POS
-               MOVE 0 TO DECIMAL-FOUND
-               PERFORM UNTIL WS-POS > FUNCTION LENGTH(BALANCE-STR)
-                              OR DECIMAL-FOUND = 1
-                   IF BALANCE-STR(WS-POS:1) = "."
-                       MOVE 1 TO DECIMAL-FOUND
-                   ELSE
-                       ADD 1 TO WS-POS
-                   END-IF
-               END-PERFORM
-        
-               IF DECIMAL-FOUND = 1
-                   *> Extract integer and decimal parts
-                   MOVE BALANCE-STR(1:WS-POS - 1) TO BAL-INTEGER
-                   MOVE BALANCE-STR(WS-POS + 1:2) TO BAL-DECIMAL
-                   COMPUTE CURRENT-BALANCE = 
-                       FUNCTION NUMVAL(FUNCTION TRIM(BAL-INTEGER)) + 
-                       (FUNCTION NUMVAL(FUNCTION TRIM(BAL-DECIMAL)) / 100)
-               ELSE
-                   *> No decimal point found
-                   MOVE FUNCTION NUMVAL(FUNCTION TRIM(BALANCE-STR)) 
-                     TO CURRENT-BALANCE
-               END-IF
+               UNSTRING BALANCE-STR
+                   DELIMITED BY "." OR ALL SPACES
+                   INTO BAL-INTEGER, BAL-DECIMAL
+               END-UNSTRING
+               COMPUTE CURRENT-BALANCE = 
+                   FUNCTION NUMVAL(FUNCTION TRIM(BAL-INTEGER)) + 
+                   (FUNCTION NUMVAL(FUNCTION TRIM(BAL-DECIMAL)) / 100)
 
                *> Convert withdrawal amount
                MOVE FUNCTION NUMVAL(FUNCTION TRIM(TX-AMOUNT)) 
