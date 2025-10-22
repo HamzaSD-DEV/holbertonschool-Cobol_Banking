@@ -1,0 +1,9 @@
+2025-10-22 10:03:22 [CICS] STARTUP: CICS region CICSPROD started
+2025-10-22 10:03:22 [CICS] STARTUP: Region CICSPROD starting on port 3270
+2025-10-22 10:09:15 [CICS] STARTUP: CICS region CICSPROD started
+2025-10-22 10:09:44 [CICS] STARTUP: Region CICSPROD starting on port 3270
+2025-10-22 10:10:17 [T001] SIGNON: Terminal session started
+2025-10-22 10:10:27 [T001] SIGNOFF: Terminal session ended
+2025-10-22 10:12:29 [CICS] STARTUP: CICS region CICSPROD started
+2025-10-22 10:14:17 [T001] SIGNON: Terminal session started
+2025-10-22 10:39:45 [T001] SIGNOFF: Terminal session ended

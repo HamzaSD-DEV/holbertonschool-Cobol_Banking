@@ -1,0 +1,32 @@
+T001 ==> CESN
+CICS Sign-on
+Enter userid: STUDENT01
+User STUDENT01 signed on to terminal T001
+T001(STUDENT01) ==> BANK
+Executing transaction: BANK
+Program: BANKPROG
+Banking Application
+=====================
+Welcome to CICS Banking System
+
+Available Functions:
+  1. Account Inquiry
+  2. Account Update
+  3. Transaction History
+  4. Customer Information
+
+Enter selection (1-4): 
+4
+Customer Information selected
+Customer details and profile
+T001(STUDENT01) ==> ACCT STUDENT01
+Executing transaction: ACCT
+Program: ACCTPROG
+Account Inquiry
+==================
+Account Number: STUDENT01
+Customer Name: John Doe
+Account Type: Checking
+Current Balance: T0015,432.10
+Available Balance: T0015,432.10
+Last Transaction: 2025-10-22
