@@ -60,13 +60,15 @@ Signing off terminal T002
 
 Starting CICS Terminal: T003
 ==================================
+==================================
 Terminal T003 connected to CICS region CICSPROD
 Enter CICS transactions (type 'CESF' to sign off)
 
-T003 ==> OPERATOR01 
-Executing transaction: OPERATOR01
-ERROR: Transaction OPERATOR01 not found in PCT
-T003 ==> BANK 
+T003 ==> CESN
+CICS Sign-on
+Enter userid: OPERATOR01 
+User OPERATOR01 signed on to terminal T003
+T003(OPERATOR01) ==> BANK
 Executing transaction: BANK
 Program: BANKPROG
 Banking Application
@@ -85,7 +87,7 @@ Account Inquiry selected
 Enter account number: 
 ACC001
 Account ACC001: Balance T0032,345.67
-T003 ==> CESF 
+T003(OPERATOR01) ==> CESF    
 Signing off terminal T003
 
 Starting CICS Terminal: T004
