@@ -1,0 +1,105 @@
+Starting CICS Terminal: T002
+==================================
+Terminal T002 connected to CICS region CICSPROD
+Enter CICS transactions (type 'CESF' to sign off)
+
+T002 ==> CESN ADMIN01 
+CICS Sign-on
+Enter userid: ADMIN01 
+User ADMIN01 signed on to terminal T002
+T002(ADMIN01) ==> MENU 
+Executing transaction: MENU
+Program: MAINMENU
+CICS Main Menu
+=================
+
+Available Applications:
+  BANK - Banking Application
+  ACCT - Account Inquiry
+  CUST - Customer Inquiry
+  CEMT - Master Terminal
+  CEDA - Resource Definition
+  CEDF - Execution Diagnostic
+
+System Commands:
+  CESN - Sign On
+  CESF - Sign Off
+  CLEAR - Clear Screen
+
+T002(ADMIN01) ==> BANK 
+Executing transaction: BANK
+Program: BANKPROG
+Banking Application
+=====================
+Welcome to CICS Banking System
+
+Available Functions:
+  1. Account Inquiry
+  2. Account Update
+  3. Transaction History
+  4. Customer Information
+
+Enter selection (1-4): 
+1
+Account Inquiry selected
+Enter account number: 
+2
+Account 2: Balance T0022,345.67
+T002(ADMIN01) ==> CUST CUST001
+Executing transaction: CUST
+Program: CUSTPROG
+Customer Inquiry
+===================
+Customer ID: CUST001
+Name: Jane Smith
+Address: 123 Main St, Anytown, ST 12345
+Phone: (555) 123-4567
+Email: jane.smith@email.com
+Accounts: 3 (Checking, Savings, Credit)
+T002(ADMIN01) ==> ACCT ACC123456
+Executing transaction: ACCT
+Program: ACCTPROG
+Account Inquiry
+==================
+Account Number: ACC123456
+Customer Name: John Doe
+Account Type: Checking
+Current Balance: T0025,432.10
+Available Balance: T0025,432.10
+Last Transaction: 2025-10-24
+T002(ADMIN01) ==> CEMT INQUIRE SYSTEM
+Executing transaction: CEMT
+Program: CEMT
+CEMT - CICS Master Terminal
+==============================
+System Status:
+  Region: CICSPROD
+  Applid: CICS001
+  Status: ACTIVE
+  Startup: 
+T002(ADMIN01) ==> CEMT INQUIRE TASK
+Executing transaction: CEMT
+Program: CEMT
+CEMT - CICS Master Terminal
+==============================
+Active Tasks:
+  Total: 2
+T002(ADMIN01) ==> CEMT INQUIRE TERMINAL
+Executing transaction: CEMT
+Program: CEMT
+CEMT - CICS Master Terminal
+==============================
+Terminal Status:
+  T001: ACTIVE (3270)
+  T002: ACTIVE (3270)
+  T003: ACTIVE (3270)
+  T004: ACTIVE (3270)
+  T005: ACTIVE (3270)
+  CONSOLE: ACTIVE (CONSOLE)
+T002(ADMIN01) ==> XXXX 
+Executing transaction: XXXX
+ERROR: Transaction XXXX not found in PCT
+T002(ADMIN01) ==> TEST 
+Executing transaction: TEST
+ERROR: Transaction TEST not found in PCT
+T002(ADMIN01) ==> 

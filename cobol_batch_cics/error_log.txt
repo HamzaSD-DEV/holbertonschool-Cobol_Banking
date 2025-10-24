@@ -1,0 +1,2 @@
+ERROR: Transaction TEST not found in PCT
+ERROR: Transaction XXXX not found in PCT
