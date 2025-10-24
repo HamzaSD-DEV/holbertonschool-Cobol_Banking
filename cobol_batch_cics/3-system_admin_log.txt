@@ -1,0 +1,167 @@
+Starting CICS Terminal: T002
+==================================
+Terminal T002 connected to CICS region CICSPROD
+Enter CICS transactions (type 'CESF' to sign off)
+
+T002 ==> CESN
+CICS Sign-on
+Enter userid: ADMIN01 
+User ADMIN01 signed on to terminal T002
+T002(ADMIN01) ==> MENU 
+Executing transaction: MENU
+Program: MAINMENU
+CICS Main Menu
+=================
+
+Available Applications:
+  BANK - Banking Application
+  ACCT - Account Inquiry
+  CUST - Customer Inquiry
+  CEMT - Master Terminal
+  CEDA - Resource Definition
+  CEDF - Execution Diagnostic
+
+System Commands:
+  CESN - Sign On
+  CESF - Sign Off
+  CLEAR - Clear Screen
+
+T002(ADMIN01) ==> CEMT INQUIRE SYSTEM
+Executing transaction: CEMT
+Program: CEMT
+CEMT - CICS Master Terminal
+==============================
+System Status:
+  Region: CICSPROD
+  Applid: CICS001
+  Status: ACTIVE
+  Startup: 
+T002(ADMIN01) ==> CEMT INQUIRE TASK
+Executing transaction: CEMT
+Program: CEMT
+CEMT - CICS Master Terminal
+==============================
+Active Tasks:
+  Total: 3
+T002(ADMIN01) ==> CEMT INQUIRE TERMINAL
+Executing transaction: CEMT
+Program: CEMT
+CEMT - CICS Master Terminal
+==============================
+Terminal Status:
+  T001: ACTIVE (3270)
+  T002: ACTIVE (3270)
+  T003: ACTIVE (3270)
+  T004: ACTIVE (3270)
+  T005: ACTIVE (3270)
+  CONSOLE: ACTIVE (CONSOLE)
+T002(ADMIN01) ==> CESF 
+Signing off terminal T002
+
+Starting CICS Terminal: T003
+==================================
+Terminal T003 connected to CICS region CICSPROD
+Enter CICS transactions (type 'CESF' to sign off)
+
+T003 ==> OPERATOR01 
+Executing transaction: OPERATOR01
+ERROR: Transaction OPERATOR01 not found in PCT
+T003 ==> BANK 
+Executing transaction: BANK
+Program: BANKPROG
+Banking Application
+=====================
+Welcome to CICS Banking System
+
+Available Functions:
+  1. Account Inquiry
+  2. Account Update
+  3. Transaction History
+  4. Customer Information
+
+Enter selection (1-4): 
+1
+Account Inquiry selected
+Enter account number: 
+ACC001
+Account ACC001: Balance T0032,345.67
+T003 ==> CESF 
+Signing off terminal T003
+
+Starting CICS Terminal: T004
+==================================
+Terminal T004 connected to CICS region CICSPROD
+Enter CICS transactions (type 'CESF' to sign off)
+
+T004 ==> CESN
+CICS Sign-on
+Enter userid: USER01 
+User USER01 signed on to terminal T004
+T004(USER01) ==> CUST CUST001
+Executing transaction: CUST
+Program: CUSTPROG
+Customer Inquiry
+===================
+Customer ID: CUST001
+Name: Jane Smith
+Address: 123 Main St, Anytown, ST 12345
+Phone: (555) 123-4567
+Email: jane.smith@email.com
+Accounts: 3 (Checking, Savings, Credit)
+T004(USER01) ==> CESF 
+Signing off terminal T004
+
+CICS Region Status: CICSPROD
+====================================
+Status: INACTIVE (stale PID file)
+Region: CICSPROD
+Application ID: CICS001
+Port: 3270
+Startup Time: 
+
+Active Sessions: 3
+
+Recent Transactions (last 10):
+------------------------------
+  2025-10-24 11:13:57 T004 USER01 CUST COMPLETE RC=0
+  2025-10-24 11:18:09 T002 ADMIN01 CEMT COMPLETE RC=0
+  2025-10-24 11:18:38 T002 ADMIN01 CEMT COMPLETE RC=0
+  2025-10-24 11:27:26 T002 ADMIN01 CESN SIGNON RC=0
+  2025-10-24 11:27:37 T002 ADMIN01 MENU COMPLETE RC=0
+  2025-10-24 11:28:10 T002 ADMIN01 CEMT COMPLETE RC=0
+  2025-10-24 11:28:52 T003  OPERATOR01 NOTFOUND RC=4
+  2025-10-24 11:29:14 T003  BANK COMPLETE RC=0
+  2025-10-24 11:29:47 T004 USER01 CESN SIGNON RC=0
+  2025-10-24 11:29:55 T004 USER01 CUST COMPLETE RC=0
+
+  └─$ ./cics_simulator.sh status
+CICS Region Status: CICSPROD
+====================================
+Status: INACTIVE
+Region: CICSPROD
+Application ID: CICS001
+Port: 3270
+Startup Time: 
+
+CICS Region Status: CICSPROD
+====================================
+Status: INACTIVE
+Region: CICSPROD
+Application ID: CICS001
+Port: 3270
+Startup Time: 
+
+Active Sessions: 0
+
+Recent Transactions (last 10):
+------------------------------
+  2025-10-24 11:29:47 T004 USER01 CESN SIGNON RC=0
+  2025-10-24 11:29:55 T004 USER01 CUST COMPLETE RC=0
+  2025-10-24 11:32:07 T002 ADMIN01 CEMT COMPLETE RC=0
+  2025-10-24 11:32:35 T002 ADMIN01 CEMT COMPLETE RC=0
+  2025-10-24 11:33:07 T002 ADMIN01 CESF SIGNOFF RC=0
+  2025-10-24 11:33:12 T003  CESF SIGNOFF RC=0
+  2025-10-24 11:33:16 T004 USER01 CESF SIGNOFF RC=0
+  2025-10-24 12:04:55 T003 OPERATOR01 CESN SIGNON RC=0
+  2025-10-24 12:05:28 T003 OPERATOR01 BANK COMPLETE RC=0
+  2025-10-24 12:07:17 T003 OPERATOR01 CESF SIGNOFF RC=0
