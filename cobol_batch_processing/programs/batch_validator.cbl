@@ -9,7 +9,6 @@
        DATA DIVISION.
        FILE SECTION.
        FD  TRANS-FILE
-           RECORD CONTAINS 80 CHARACTERS
            DATA RECORD IS TRANS-RECORD.
        01  TRANS-RECORD           PIC X(80).
 
