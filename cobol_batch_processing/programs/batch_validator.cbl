@@ -34,9 +34,9 @@
            05  WS-DATE            PIC X(8).
 
        01  DISPLAY-COUNTERS.
-           05  DISP-TOTAL         PIC ZZZZ9.
-           05  DISP-VALID         PIC ZZZZ9.
-           05  DISP-INVALID       PIC ZZZZ9.
+           05  DISP-TOTAL         PIC 9(5).
+           05  DISP-VALID         PIC 9(5).
+           05  DISP-INVALID       PIC 9(5).
 
        PROCEDURE DIVISION.
        MAIN-LOGIC.
