@@ -23,8 +23,8 @@ IDENTIFICATION DIVISION.
        01  CURRENT-BALANCE      PIC S9(8)V99.
        01  WITHDRAWAL-AMOUNT    PIC S9(8)V99.
        01  BALANCE-STR          PIC X(20).
-       01  BAL-INTEGER          PIC X(10).
-       01  BAL-DECIMAL          PIC X(10).
+       01  WS-BALANCE           PIC X(20).
+       01  WS-AMOUNT            PIC X(10).
 
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
@@ -72,20 +72,27 @@ IDENTIFICATION DIVISION.
                RETURNING RC.
 
            IF RC = 0 THEN
-               *> Manual parsing of balance value
-               MOVE 0 TO CURRENT-BALANCE
-               MOVE FUNCTION TRIM(SINGLE-RESULT-BUFFER) TO BALANCE-STR
-               UNSTRING BALANCE-STR
-                   DELIMITED BY "." OR ALL SPACES
-                   INTO BAL-INTEGER, BAL-DECIMAL
-               END-UNSTRING
-               COMPUTE CURRENT-BALANCE = 
-                   FUNCTION NUMVAL(FUNCTION TRIM(BAL-INTEGER)) + 
-                   (FUNCTION NUMVAL(FUNCTION TRIM(BAL-DECIMAL)) / 100)
+               *> Prepare balance string for numeric conversion
+               MOVE FUNCTION TRIM(SINGLE-RESULT-BUFFER) TO WS-BALANCE
+               
+               *> Convert balance to numeric
+               IF WS-BALANCE NOT = SPACES AND WS-BALANCE NOT = ZERO
+                   COMPUTE CURRENT-BALANCE = 
+                       FUNCTION NUMVAL(WS-BALANCE)
+               ELSE
+                   MOVE 0 TO CURRENT-BALANCE
+               END-IF
 
-               *> Convert withdrawal amount
-               MOVE FUNCTION NUMVAL(FUNCTION TRIM(TX-AMOUNT)) 
-                 TO WITHDRAWAL-AMOUNT
+               *> Prepare withdrawal amount for numeric conversion
+               MOVE FUNCTION TRIM(TX-AMOUNT) TO WS-AMOUNT
+               
+               *> Convert withdrawal amount to numeric
+               IF WS-AMOUNT NOT = SPACES AND WS-AMOUNT NOT = ZERO
+                   COMPUTE WITHDRAWAL-AMOUNT = 
+                       FUNCTION NUMVAL(WS-AMOUNT)
+               ELSE
+                   MOVE 0 TO WITHDRAWAL-AMOUNT
+               END-IF
 
                DISPLAY "Debug: Current balance: " CURRENT-BALANCE
                        " Withdrawal amount: " WITHDRAWAL-AMOUNT
@@ -129,3 +136,4 @@ IDENTIFICATION DIVISION.
                DISPLAY "ERROR: Update failed for account " 
                        FUNCTION TRIM(TX-ACCOUNT-ID)
            END-IF.
+           
