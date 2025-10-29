@@ -93,17 +93,13 @@ IDENTIFICATION DIVISION.
                 RETURNING RC
            END-CALL
            
-           DISPLAY "Debug: Query for account " FUNCTION TRIM(TX-ACCOUNT-ID) 
-                   " - RC: " RC " - Data: '" 
-                   FUNCTION TRIM(SINGLE-RESULT-BUFFER) "'"
-
            IF RC NOT = 0
               DISPLAY "ERROR: Could not find account " 
                       FUNCTION TRIM(TX-ACCOUNT-ID)
               EXIT PARAGRAPH
            END-IF
 
-           *> Convert balance using the robust method from Task 1
+           *> Convert balance
            MOVE FUNCTION TRIM(SINGLE-RESULT-BUFFER) TO WS-BALANCE
            MOVE 0 TO CURRENT-BALANCE
            IF WS-BALANCE NOT = SPACES
@@ -124,9 +120,6 @@ IDENTIFICATION DIVISION.
                        FUNCTION NUMVAL(WS-AMOUNT)
                END-IF
            END-IF
-
-           DISPLAY "Debug: Balance: " CURRENT-BALANCE 
-                   " Withdrawal: " WITHDRAWAL-AMOUNT
 
            IF CURRENT-BALANCE >= WITHDRAWAL-AMOUNT
               PERFORM EXECUTE-UPDATE
@@ -163,11 +156,12 @@ IDENTIFICATION DIVISION.
            END-CALL.
 
        LOG-TRANSACTION.
+           *> Use direct INSERT into tx_log table instead of stored procedure
            MOVE SPACES TO SQL-COMMAND
            MOVE SPACES TO SQL-LIT
-           *> Try different parameter formats for the stored procedure
            STRING
-              "CALL log_transaction('"
+              "INSERT INTO tx_log (account_id, tx_type, amount) "
+              "VALUES ('"
               FUNCTION TRIM(TX-ACCOUNT-ID)
               "', 'WITHDRAW', "
               FUNCTION TRIM(TX-AMOUNT)
@@ -177,42 +171,6 @@ IDENTIFICATION DIVISION.
            COMPUTE L = FUNCTION LENGTH(FUNCTION TRIM(SQL-LIT))
            MOVE SQL-LIT(1:L) TO SQL-COMMAND(1:L)
            MOVE X"00" TO SQL-COMMAND(L + 1:1)
-
-           DISPLAY "Debug: Calling stored procedure: " 
-                   FUNCTION TRIM(SQL-COMMAND)
-
-           CALL "DB_EXEC"
-                USING BY VALUE DBH
-                      BY REFERENCE SQL-COMMAND
-                RETURNING RC
-           END-CALL
-
-           IF RC = 0
-              DISPLAY "SUCCESS: Withdrawal and audit log complete for account "
-                      FUNCTION TRIM(TX-ACCOUNT-ID)
-           ELSE
-              *> Try alternative format if first one fails
-              PERFORM LOG-TRANSACTION-ALTERNATIVE
-           END-IF.
-
-       LOG-TRANSACTION-ALTERNATIVE.
-           MOVE SPACES TO SQL-COMMAND
-           MOVE SPACES TO SQL-LIT
-           *> Alternative format - quote the amount as well
-           STRING
-              "CALL log_transaction('"
-              FUNCTION TRIM(TX-ACCOUNT-ID)
-              "', 'WITHDRAW', '"
-              FUNCTION TRIM(TX-AMOUNT)
-              "')"
-              INTO SQL-LIT
-           END-STRING
-           COMPUTE L = FUNCTION LENGTH(FUNCTION TRIM(SQL-LIT))
-           MOVE SQL-LIT(1:L) TO SQL-COMMAND(1:L)
-           MOVE X"00" TO SQL-COMMAND(L + 1:1)
-
-           DISPLAY "Debug: Alternative call: " 
-                   FUNCTION TRIM(SQL-COMMAND)
 
            CALL "DB_EXEC"
                 USING BY VALUE DBH
@@ -226,4 +184,5 @@ IDENTIFICATION DIVISION.
            ELSE
               DISPLAY "ERROR: Audit log failed for account "
                       FUNCTION TRIM(TX-ACCOUNT-ID)
+              DISPLAY "SQL: " FUNCTION TRIM(SQL-COMMAND)
            END-IF.
