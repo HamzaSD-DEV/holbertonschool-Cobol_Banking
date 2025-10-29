@@ -25,6 +25,8 @@ IDENTIFICATION DIVISION.
        01  BALANCE-STR          PIC X(20).
        01  WS-BALANCE           PIC X(20).
        01  WS-AMOUNT            PIC X(10).
+       01  I PIC 9(2).
+       01  J PIC 9(2).
 
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
@@ -34,7 +36,10 @@ IDENTIFICATION DIVISION.
            MOVE X"00" TO DB-CONNSTR(L + 1:1).
 
            CALL STATIC "DB_CONNECT" USING DB-CONNSTR RETURNING DBH.
-           IF DBH = NULL-PTR THEN STOP RUN.
+           IF DBH = NULL-PTR THEN 
+               DISPLAY "ERROR: Database connection failed"
+               STOP RUN
+           END-IF.
 
            OPEN INPUT TX-FILE.
            PERFORM PROCESS-WITHDRAWALS UNTIL TX-FILE-STATUS NOT = "00".
@@ -71,28 +76,26 @@ IDENTIFICATION DIVISION.
                      BY REFERENCE SINGLE-RESULT-BUFFER
                RETURNING RC.
 
+           DISPLAY "Debug: Query result for account " 
+                   FUNCTION TRIM(TX-ACCOUNT-ID) 
+                   " - RC: " RC 
+                   " - Data: '" 
+                   FUNCTION TRIM(SINGLE-RESULT-BUFFER) 
+                   "'"
+
            IF RC = 0 THEN
-               *> Prepare balance string for numeric conversion
+               *> Clean and validate the balance string
                MOVE FUNCTION TRIM(SINGLE-RESULT-BUFFER) TO WS-BALANCE
                
-               *> Convert balance to numeric
-               IF WS-BALANCE NOT = SPACES AND WS-BALANCE NOT = ZERO
-                   COMPUTE CURRENT-BALANCE = 
-                       FUNCTION NUMVAL(WS-BALANCE)
-               ELSE
-                   MOVE 0 TO CURRENT-BALANCE
-               END-IF
-
-               *> Prepare withdrawal amount for numeric conversion
-               MOVE FUNCTION TRIM(TX-AMOUNT) TO WS-AMOUNT
+               *> Debug the raw balance string
+               DISPLAY "Debug: Raw balance string: '" WS-BALANCE "'"
                
-               *> Convert withdrawal amount to numeric
-               IF WS-AMOUNT NOT = SPACES AND WS-AMOUNT NOT = ZERO
-                   COMPUTE WITHDRAWAL-AMOUNT = 
-                       FUNCTION NUMVAL(WS-AMOUNT)
-               ELSE
-                   MOVE 0 TO WITHDRAWAL-AMOUNT
-               END-IF
+               *> Manual conversion with validation
+               PERFORM CONVERT-BALANCE
+               
+               *> Convert withdrawal amount
+               MOVE FUNCTION TRIM(TX-AMOUNT) TO WS-AMOUNT
+               PERFORM CONVERT-AMOUNT
 
                DISPLAY "Debug: Current balance: " CURRENT-BALANCE
                        " Withdrawal amount: " WITHDRAWAL-AMOUNT
@@ -106,6 +109,54 @@ IDENTIFICATION DIVISION.
            ELSE
                DISPLAY "ERROR: Could not find account " 
                        FUNCTION TRIM(TX-ACCOUNT-ID)
+           END-IF.
+
+       CONVERT-BALANCE.
+           *> Initialize to zero
+           MOVE 0 TO CURRENT-BALANCE
+           
+           *> Check if string contains valid numeric data
+           IF WS-BALANCE NOT = SPACES THEN
+               *> Try direct numeric move first
+               MOVE WS-BALANCE TO CURRENT-BALANCE
+               
+               *> If that fails, try manual parsing
+               IF CURRENT-BALANCE = 0 THEN
+                   PERFORM PARSE-BALANCE-MANUALLY
+               END-IF
+           END-IF.
+
+       PARSE-BALANCE-MANUALLY.
+           *> Manual parsing for decimal numbers
+           MOVE 0 TO CURRENT-BALANCE
+           MOVE 1 TO I
+           MOVE 0 TO J
+           
+           *> Find decimal point
+           PERFORM VARYING I FROM 1 BY 1 
+             UNTIL I > FUNCTION LENGTH(WS-BALANCE)
+                   OR WS-BALANCE(I:1) = '.'
+           END-PERFORM
+           
+           IF I <= FUNCTION LENGTH(WS-BALANCE) THEN
+               *> We found a decimal point
+               COMPUTE CURRENT-BALANCE = 
+                   FUNCTION NUMVAL(WS-BALANCE(1:I - 1)) +
+                   (FUNCTION NUMVAL(WS-BALANCE(I + 1:)) / 100)
+           ELSE
+               *> No decimal point, treat as whole number
+               COMPUTE CURRENT-BALANCE = FUNCTION NUMVAL(WS-BALANCE)
+           END-IF.
+
+       CONVERT-AMOUNT.
+           *> Convert withdrawal amount
+           MOVE 0 TO WITHDRAWAL-AMOUNT
+           IF WS-AMOUNT NOT = SPACES THEN
+               MOVE WS-AMOUNT TO WITHDRAWAL-AMOUNT
+               IF WITHDRAWAL-AMOUNT = 0 THEN
+                   COMPUTE WITHDRAWAL-AMOUNT = 
+                       FUNCTION NUMVAL(WS-AMOUNT)
+               END-IF
            END-IF.
 
        EXECUTE-UPDATE.
