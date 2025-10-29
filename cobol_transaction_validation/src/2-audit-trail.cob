@@ -1,4 +1,4 @@
-       IDENTIFICATION DIVISION.
+IDENTIFICATION DIVISION.
        PROGRAM-ID. audit-trail.
 
        ENVIRONMENT DIVISION.
@@ -30,7 +30,7 @@
        01  WITHDRAWAL-AMOUNT         PIC S9(9)V99 VALUE 0.
 
        01  DONE                      PIC X VALUE "N".
-       01  DID-PRINT                 PIC X VALUE "N".
+        *> REMOVED: 01  DID-PRINT                 PIC X VALUE "N".
 
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
@@ -144,8 +144,8 @@
                 RETURNING RC
            END-CALL
 
-           IF RC = 0 AND DID-PRINT = "N"
+           *> REMOVED THE DID-PRINT CHECK - DISPLAY SUCCESS FOR EVERY VALID TRANSACTION
+           IF RC = 0
               DISPLAY "SUCCESS: Withdrawal and audit log complete for account "
                       FUNCTION TRIM(TX-ACCOUNT-ID)
-              MOVE "Y" TO DID-PRINT
            END-IF.

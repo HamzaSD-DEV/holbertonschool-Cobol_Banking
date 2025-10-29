@@ -36,6 +36,11 @@ db-setup:
 
 # --- Student Test Runners ---
 
+load-proc:
+	@echo "Loading stored procedure..."
+	@PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -d schooldb -f stored_procedure.sql
+	@echo "✅ Stored procedure loaded."
+
 smoke-test: $(BUILD)/smoke
 	@echo "--- Running Environment Smoke Test ---"
 	@LD_LIBRARY_PATH=./lib ./build/smoke
@@ -59,6 +64,11 @@ run-3: $(BUILD)/3-batch-validation
 run-4: $(BUILD)/4-extend-api
 	@echo "--- Running Task 4 (Stretch Goal): Extend API ---"
 	@LD_LIBRARY_PATH=./lib ./build/4-extend-api
+	@echo "--- End of Task 4 ---"
+
+test: $(BUILD)/test
+	@echo "--- Running Task 4 (Stretch Goal): Extend API ---"
+	@LD_LIBRARY_PATH=./lib ./build/test
 	@echo "--- End of Task 4 ---"
 
 clean:
