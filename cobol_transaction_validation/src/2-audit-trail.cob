@@ -28,9 +28,10 @@ IDENTIFICATION DIVISION.
 
        01  CURRENT-BALANCE           PIC S9(9)V99 VALUE 0.
        01  WITHDRAWAL-AMOUNT         PIC S9(9)V99 VALUE 0.
+       01  WS-BALANCE                PIC X(20).
+       01  WS-AMOUNT                 PIC X(10).
 
        01  DONE                      PIC X VALUE "N".
-        *> REMOVED: 01  DID-PRINT                 PIC X VALUE "N".
 
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
@@ -40,6 +41,7 @@ IDENTIFICATION DIVISION.
            MOVE X"00" TO DB-CONNSTR(L + 1:1)
            CALL STATIC "DB_CONNECT" USING DB-CONNSTR RETURNING DBH
            IF DBH = NULL-PTR
+              DISPLAY "ERROR: Database connection failed"
               STOP RUN
            END-IF
 
@@ -50,7 +52,7 @@ IDENTIFICATION DIVISION.
                     MOVE "Y" TO DONE
                  NOT AT END
                     PERFORM PARSE-LINE
-                    IF FUNCTION TRIM(TX-ACTION) = "WITHDRAW"
+                    IF FUNCTION UPPER-CASE(FUNCTION TRIM(TX-ACTION)) = "WITHDRAW"
                        PERFORM VALIDATE-AND-PROCESS
                     END-IF
               END-READ
@@ -75,8 +77,9 @@ IDENTIFICATION DIVISION.
            MOVE SPACES TO SQL-COMMAND
            MOVE SPACES TO SQL-LIT
            STRING
-              "SELECT balance FROM accounts WHERE account_id = "
+              "SELECT balance FROM accounts WHERE account_id = '"
               FUNCTION TRIM(TX-ACCOUNT-ID)
+              "'"
               INTO SQL-LIT
            END-STRING
            COMPUTE L = FUNCTION LENGTH(FUNCTION TRIM(SQL-LIT))
@@ -89,18 +92,53 @@ IDENTIFICATION DIVISION.
                       BY REFERENCE SINGLE-RESULT-BUFFER
                 RETURNING RC
            END-CALL
+           
+           DISPLAY "Debug: Query for account " FUNCTION TRIM(TX-ACCOUNT-ID) 
+                   " - RC: " RC " - Data: '" 
+                   FUNCTION TRIM(SINGLE-RESULT-BUFFER) "'"
+
            IF RC NOT = 0
+              DISPLAY "ERROR: Could not find account " 
+                      FUNCTION TRIM(TX-ACCOUNT-ID)
               EXIT PARAGRAPH
            END-IF
 
-           MOVE FUNCTION NUMVAL(SINGLE-RESULT-BUFFER) TO CURRENT-BALANCE
-           MOVE FUNCTION NUMVAL(TX-AMOUNT)            TO WITHDRAWAL-AMOUNT
+           *> Convert balance using the robust method from Task 1
+           MOVE FUNCTION TRIM(SINGLE-RESULT-BUFFER) TO WS-BALANCE
+           MOVE 0 TO CURRENT-BALANCE
+           IF WS-BALANCE NOT = SPACES
+               MOVE WS-BALANCE TO CURRENT-BALANCE
+               IF CURRENT-BALANCE = 0
+                   COMPUTE CURRENT-BALANCE = 
+                       FUNCTION NUMVAL(WS-BALANCE)
+               END-IF
+           END-IF
+
+           *> Convert withdrawal amount
+           MOVE FUNCTION TRIM(TX-AMOUNT) TO WS-AMOUNT
+           MOVE 0 TO WITHDRAWAL-AMOUNT
+           IF WS-AMOUNT NOT = SPACES
+               MOVE WS-AMOUNT TO WITHDRAWAL-AMOUNT
+               IF WITHDRAWAL-AMOUNT = 0
+                   COMPUTE WITHDRAWAL-AMOUNT = 
+                       FUNCTION NUMVAL(WS-AMOUNT)
+               END-IF
+           END-IF
+
+           DISPLAY "Debug: Balance: " CURRENT-BALANCE 
+                   " Withdrawal: " WITHDRAWAL-AMOUNT
 
            IF CURRENT-BALANCE >= WITHDRAWAL-AMOUNT
               PERFORM EXECUTE-UPDATE
               IF RC = 0
                  PERFORM LOG-TRANSACTION
+              ELSE
+                 DISPLAY "ERROR: Update failed for account " 
+                         FUNCTION TRIM(TX-ACCOUNT-ID)
               END-IF
+           ELSE
+              DISPLAY "Validation FAILED: Insufficient funds for account "
+                      FUNCTION TRIM(TX-ACCOUNT-ID)
            END-IF.
 
        EXECUTE-UPDATE.
@@ -109,8 +147,9 @@ IDENTIFICATION DIVISION.
            STRING
               "UPDATE accounts SET balance = balance - "
               FUNCTION TRIM(TX-AMOUNT)
-              " WHERE account_id = "
+              " WHERE account_id = '"
               FUNCTION TRIM(TX-ACCOUNT-ID)
+              "'"
               INTO SQL-LIT
            END-STRING
            COMPUTE L = FUNCTION LENGTH(FUNCTION TRIM(SQL-LIT))
@@ -144,8 +183,10 @@ IDENTIFICATION DIVISION.
                 RETURNING RC
            END-CALL
 
-           *> REMOVED THE DID-PRINT CHECK - DISPLAY SUCCESS FOR EVERY VALID TRANSACTION
            IF RC = 0
               DISPLAY "SUCCESS: Withdrawal and audit log complete for account "
+                      FUNCTION TRIM(TX-ACCOUNT-ID)
+           ELSE
+              DISPLAY "ERROR: Audit log failed for account "
                       FUNCTION TRIM(TX-ACCOUNT-ID)
            END-IF.
