@@ -67,9 +67,14 @@ run-4: $(BUILD)/4-extend-api
 	@echo "--- End of Task 4 ---"
 
 test: $(BUILD)/test
-	@echo "--- Running Task 4 (Stretch Goal): Extend API ---"
+	@echo "--- Running Test (Stretch Goal): TEST ---"
 	@LD_LIBRARY_PATH=./lib ./build/test
-	@echo "--- End of Task 4 ---"
+	@echo "--- End of Test ---"
+
+test2: $(BUILD)/test2
+	@echo "--- Running Test 2 (Stretch Goal): TEST ---"
+	@LD_LIBRARY_PATH=./lib ./build/test2
+	@echo "--- End of Test 2 ---"
 
 clean:
 	@rm -rf $(BUILD)/* $(LIBDIR)/*
