@@ -1,4 +1,4 @@
-       IDENTIFICATION DIVISION.
+IDENTIFICATION DIVISION.
        PROGRAM-ID. batch-validation.
 
        ENVIRONMENT DIVISION.
@@ -26,6 +26,8 @@
            05 TX-AMOUNT         PIC X(30).
        01  CURRENT-BALANCE      PIC S9(9)V99 VALUE 0.
        01  WITHDRAWAL-AMOUNT    PIC S9(9)V99 VALUE 0.
+       01  WS-BALANCE           PIC X(20).
+       01  WS-AMOUNT            PIC X(10).
        01  BATCH-FAILED-FLAG    PIC X VALUE "N".
        01  PROCESSED-COUNT      PIC 9(9) VALUE 0.
 
@@ -58,7 +60,7 @@
                            TX-ACCOUNT-ID
                            TX-AMOUNT
                     END-UNSTRING
-                    IF FUNCTION TRIM(TX-ACTION) = "WITHDRAW"
+                    IF FUNCTION UPPER-CASE(FUNCTION TRIM(TX-ACTION)) = "WITHDRAW"
                        PERFORM VALIDATE-AND-APPLY
                        ADD 1 TO PROCESSED-COUNT
                     END-IF
@@ -72,7 +74,7 @@
 
            IF BATCH-FAILED-FLAG = 'Y' OR PROCESSED-COUNT = 0
               CALL "DB_ROLLBACK" USING BY VALUE DBH RETURNING RC
-              DISPLAY "FAILURE: Batch rejected due to invalid transaction. Database has been rolled back."
+              DISPLAY "FAILURE: Batch rejected due to invalid transaction. Database has been rolled back." 
            ELSE
               CALL "DB_COMMIT" USING BY VALUE DBH RETURNING RC
               DISPLAY "SUCCESS: All withdrawals applied. Database committed."
@@ -82,11 +84,13 @@
            GOBACK.
 
        VALIDATE-AND-APPLY.
+           *> Check account balance with proper quotes
            MOVE SPACES TO SQL-COMMAND
            MOVE SPACES TO SQL-LIT
            STRING
-              "SELECT balance FROM accounts WHERE account_id = "
+              "SELECT balance FROM accounts WHERE account_id = '"
               FUNCTION TRIM(TX-ACCOUNT-ID)
+              "'"
               INTO SQL-LIT
            END-STRING
            COMPUTE L = FUNCTION LENGTH(FUNCTION TRIM(SQL-LIT))
@@ -104,21 +108,39 @@
               EXIT PARAGRAPH
            END-IF
 
-           MOVE FUNCTION NUMVAL(SINGLE-RESULT-BUFFER) TO CURRENT-BALANCE
-           MOVE FUNCTION NUMVAL(TX-AMOUNT)            TO WITHDRAWAL-AMOUNT
+           *> Robust numeric conversion
+           MOVE FUNCTION TRIM(SINGLE-RESULT-BUFFER) TO WS-BALANCE
+           MOVE 0 TO CURRENT-BALANCE
+           IF WS-BALANCE NOT = SPACES
+               MOVE WS-BALANCE TO CURRENT-BALANCE
+               IF CURRENT-BALANCE = 0
+                   COMPUTE CURRENT-BALANCE = FUNCTION NUMVAL(WS-BALANCE)
+               END-IF
+           END-IF
+
+           MOVE FUNCTION TRIM(TX-AMOUNT) TO WS-AMOUNT
+           MOVE 0 TO WITHDRAWAL-AMOUNT
+           IF WS-AMOUNT NOT = SPACES
+               MOVE WS-AMOUNT TO WITHDRAWAL-AMOUNT
+               IF WITHDRAWAL-AMOUNT = 0
+                   COMPUTE WITHDRAWAL-AMOUNT = FUNCTION NUMVAL(WS-AMOUNT)
+               END-IF
+           END-IF
 
            IF CURRENT-BALANCE < WITHDRAWAL-AMOUNT
               MOVE 'Y' TO BATCH-FAILED-FLAG
               EXIT PARAGRAPH
            END-IF
 
+           *> Update account with proper quotes
            MOVE SPACES TO SQL-COMMAND
            MOVE SPACES TO SQL-LIT
            STRING
               "UPDATE accounts SET balance = balance - "
               FUNCTION TRIM(TX-AMOUNT)
-              " WHERE account_id = "
+              " WHERE account_id = '"
               FUNCTION TRIM(TX-ACCOUNT-ID)
+              "'"
               INTO SQL-LIT
            END-STRING
            COMPUTE L = FUNCTION LENGTH(FUNCTION TRIM(SQL-LIT))
@@ -135,12 +157,19 @@
               EXIT PARAGRAPH
            END-IF
 
+           *> Log transaction - try both stored procedure and direct insert
+           PERFORM LOG-TRANSACTION
+           .
+
+       LOG-TRANSACTION.
+           *> First try: Direct INSERT into tx_log (more reliable)
            MOVE SPACES TO SQL-COMMAND
            MOVE SPACES TO SQL-LIT
            STRING
-              "CALL log_transaction("
+              "INSERT INTO tx_log (account_id, tx_type, amount) "
+              "VALUES ('"
               FUNCTION TRIM(TX-ACCOUNT-ID)
-              ", 'WITHDRAW', "
+              "', 'WITHDRAW', "
               FUNCTION TRIM(TX-AMOUNT)
               ")"
               INTO SQL-LIT
@@ -154,6 +183,30 @@
                       BY REFERENCE SQL-COMMAND
                 RETURNING RC
            END-CALL
+
+           IF RC NOT = 0 THEN
+              *> Fallback: Try stored procedure with explicit casting
+              MOVE SPACES TO SQL-COMMAND
+              MOVE SPACES TO SQL-LIT
+              STRING
+                 "CALL log_transaction('"
+                 FUNCTION TRIM(TX-ACCOUNT-ID)
+                 "', 'WITHDRAW', "
+                 FUNCTION TRIM(TX-AMOUNT)
+                 ")"
+                 INTO SQL-LIT
+              END-STRING
+              COMPUTE L = FUNCTION LENGTH(FUNCTION TRIM(SQL-LIT))
+              MOVE SQL-LIT(1:L) TO SQL-COMMAND(1:L)
+              MOVE X"00" TO SQL-COMMAND(L + 1:1)
+
+              CALL "DB_EXEC"
+                   USING BY VALUE DBH
+                         BY REFERENCE SQL-COMMAND
+                   RETURNING RC
+              END-CALL
+           END-IF
+
            IF RC NOT = 0
               MOVE 'Y' TO BATCH-FAILED-FLAG
            END-IF.
