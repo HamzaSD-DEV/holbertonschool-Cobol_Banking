@@ -10,6 +10,9 @@ IDENTIFICATION DIVISION.
            & "JOIN accounts a ON c.customer_id = a.customer_id "
            & "ORDER BY c.customer_id".
        01  L PIC 9(4) VALUE 0.
+       01  CUST-NAME PIC X(100).
+       01  BALANCE-VAL PIC X(30).
+       01  I PIC 9(3).
 
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
@@ -36,6 +39,7 @@ IDENTIFICATION DIVISION.
            END-IF.
 
            CALL STATIC "DB_DISCONNECT" USING BY VALUE DBH RETURNING RC.
+           DISPLAY "--- End of Test 2 ---".
            GOBACK.
 
        FETCH-LOOP.
@@ -44,5 +48,26 @@ IDENTIFICATION DIVISION.
                USING BY VALUE STMT, BY REFERENCE C1, C2, C3
                RETURNING RC.
            IF RC = 0 THEN
-               DISPLAY "Customer: " FUNCTION TRIM(C1)
-                       ", Balance: " FUNCTION TRIM(C2).
+               *> Remove null characters from C1 and C2
+               PERFORM REMOVE-NULLS-FROM-C1
+               PERFORM REMOVE-NULLS-FROM-C2
+               DISPLAY "Customer: " FUNCTION TRIM(CUST-NAME) 
+                       ", Balance: " FUNCTION TRIM(BALANCE-VAL)
+           END-IF.
+
+       REMOVE-NULLS-FROM-C1.
+           MOVE SPACES TO CUST-NAME
+           MOVE 1 TO I
+           PERFORM UNTIL I > 100 OR C1(I:1) = X"00"
+               MOVE C1(I:1) TO CUST-NAME(I:1)
+               ADD 1 TO I
+           END-PERFORM.
+
+       REMOVE-NULLS-FROM-C2.
+           MOVE SPACES TO BALANCE-VAL
+           MOVE 1 TO I
+           PERFORM UNTIL I > 30 OR C2(I:1) = X"00"
+               MOVE C2(I:1) TO BALANCE-VAL(I:1)
+               ADD 1 TO I
+           END-PERFORM.
+           

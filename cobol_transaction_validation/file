@@ -1,0 +1,9 @@
+✅ Compiled src/test2.cob -> build/test2
+--- Running Test 2 (Stretch Goal): TEST ---
+--- INITIAL BALANCE REPORT ---
+Customer: user name1, Balance: 1111.11
+Customer: user name2, Balance: 2222.22
+Customer: user name3, Balance: 0.00
+Customer: user name4, Balance: 1111.11
+--- End of Test 2 ---
+--- End of Test 2 ---
